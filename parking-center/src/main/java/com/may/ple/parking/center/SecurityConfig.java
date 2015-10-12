@@ -42,11 +42,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 		.csrf().disable()
 		.authorizeRequests()
-			.antMatchers("/hello", "/user").permitAll()
+			.antMatchers("/app/js/**", "/app/lib/**", "/user",
+					     "/app/scripts/**", "/app/styles/**", 
+						 "/app/views/login.html", "/app/index.html").permitAll()
 			.anyRequest().authenticated()
 		.and()
 		.formLogin()
-			.loginPage("/index.jsp")
+			.loginPage("/app/index.html#/login")
 //			.defaultSuccessUrl("/app/index.html", true)
 //			.failureUrl("/index.html?error=1")
 			.permitAll()
