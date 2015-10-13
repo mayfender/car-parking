@@ -24,10 +24,14 @@ import com.may.ple.parking.center.repository.UserRepository;
 @Service
 public class UserService {
 	private static final Logger LOG = Logger.getLogger(UserService.class.getName());
-	@Autowired
 	private UserRepository userRepository;
-	@Autowired	
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired	
+	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
 	
 	public List<Users> findAllUser() {
 		try {

@@ -14,3 +14,4 @@ CREATE TABLE `hibernate_sequences` (
 );
 INSERT INTO hibernate_sequences VALUES ('users.id', 3);
 INSERT INTO hibernate_sequences VALUES ('roles.id', 3);
+INSERT INTO hibernate_sequences VALUES ('vehicle.id', 0);
