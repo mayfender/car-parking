@@ -22,7 +22,8 @@ public class VehicleService {
 	
 	public List<Vehicle> findVehicle(VehicleCriteriaReq req) {
 		try {
-			return vehicleRepository.findVehicle(req);
+			return vehicleRepository.findAll();
+//			return vehicleRepository.findVehicle(req);
 		} catch (Exception e) {
 			LOG.error(e.toString());
 			throw e;

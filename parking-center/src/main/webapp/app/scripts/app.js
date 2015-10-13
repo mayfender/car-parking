@@ -107,16 +107,22 @@ angular
     .state('dashboard.vehicle',{
         templateUrl:'views/vehicle/view.html',
         url:'/vehicle',
-        controller: function($scope, $http) {
-        	$scope.translate = function() {
-        		 $http.jsonp('https://glosbe.com/gapi/translate?tm=false&from=eng&dest=th&format=json&phrase='+ $scope.source.trim().toLowerCase() +'&callback=JSON_CALLBACK&pretty=true')
-        	        .then(function(data){
-        	        	$scope.phrases = data.data.tuc;
-        	        }, function(response) {
-        	        	$rootScope.systemAlert(response.status);
-        	        });	
-        	}
-        }
+        controller: 'VehicleCtrl',
+        resolve: {
+            loadVehicles:function($rootScope, $http, $state, $q, urlPrefix) {
+            	return $http.post(urlPrefix + '/restAct/vehicle/findVehicle')
+            		  .then(function(data){
+		            		if(data.data.statusCode != 9999) {
+		            			$rootScope.systemAlert(data.data.statusCode);
+		            			return $q.reject(data);
+		            		}
+            		
+		            		return data.data;
+		            	}, function(response) {
+		            		$rootScope.systemAlert(response.status);
+		        	    });
+            }
+    	}
     })
     //------------------------------------: User :-------------------------------------------
     .state('dashboard.user',{
@@ -135,9 +141,7 @@ angular
             loadMyFiles:function($ocLazyLoad) {
               return $ocLazyLoad.load({
             	  name:'sbAdminApp',
-                  files:['scripts/controllers/user/searchUserCtrl.js',
-                         'styles/user.css'
-                         ]
+                  files:['scripts/controllers/user/searchUserCtrl.js']
               });
             },
             loadUsers:function($rootScope, $http, $window, $state, $q, urlPrefix) {

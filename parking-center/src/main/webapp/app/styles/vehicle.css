@@ -7,3 +7,8 @@
 .user-status-disabled-icon {
 	color: #C11B1A;
 }
+.vehicle-search-form-border {
+	border: 1px solid #337AB7; 
+	border-radius: 15px; 
+	padding: 20px;
+}

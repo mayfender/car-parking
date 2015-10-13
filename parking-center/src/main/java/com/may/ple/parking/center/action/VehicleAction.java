@@ -39,6 +39,8 @@ public class VehicleAction {
 		try {
 			List<Vehicle> vehicles = service.findVehicle(req);
 			resp.setVehicles(vehicles);
+			
+			LOG.debug(resp);
 		} catch (Exception e) {
 			resp.setStatusCode(1000);
 			LOG.error(e.toString());
