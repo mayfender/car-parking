@@ -32,7 +32,7 @@ angular
 	      events:true,
 	 });
 
-    $urlRouterProvider.otherwise('/dashboard/may');
+    $urlRouterProvider.otherwise('/dashboard/vehicle');
 
     $stateProvider
       .state('dashboard', {
@@ -104,9 +104,9 @@ angular
           }
         }
       })
-    .state('dashboard.dictionary',{
-        templateUrl:'views/dictionary.html',
-        url:'/dictionary',
+    .state('dashboard.vehicle',{
+        templateUrl:'views/vehicle/view.html',
+        url:'/vehicle',
         controller: function($scope, $http) {
         	$scope.translate = function() {
         		 $http.jsonp('https://glosbe.com/gapi/translate?tm=false&from=eng&dest=th&format=json&phrase='+ $scope.source.trim().toLowerCase() +'&callback=JSON_CALLBACK&pretty=true')
