@@ -109,9 +109,15 @@ angular
         url:'/vehicle',
         controller: 'VehicleCtrl',
         resolve: {
-            loadVehicles:function($rootScope, $http, $state, $q, urlPrefix) {
-            	return $http.post(urlPrefix + '/restAct/vehicle/findVehicle')
-            		  .then(function(data){
+            loadVehicles:function($rootScope, $http, $state, $filter, $q, urlPrefix) {
+            	var today = $filter('date')(new Date(), 'dd-MM-yyyy');
+            	
+            	return $http.post(urlPrefix + '/restAct/vehicle/findVehicleParking', {
+		            		startDate: today,
+		            		endDate: today,
+            				currentPage: 1, 
+            				itemsPerPage: 10
+            			}).then(function(data){
 		            		if(data.data.statusCode != 9999) {
 		            			$rootScope.systemAlert(data.data.statusCode);
 		            			return $q.reject(data);

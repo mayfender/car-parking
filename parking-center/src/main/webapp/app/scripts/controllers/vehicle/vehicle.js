@@ -1,11 +1,42 @@
-angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $scope, $stateParams, $http, $state, urlPrefix, loadVehicles, toaster) {
+angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $scope, $stateParams, $http, $state, $filter, urlPrefix, loadVehicles, toaster) {
 	console.log(loadVehicles);
-	$scope.vehicles = loadVehicles.vehicles;
-	$scope.format = "dd/MM/yyyy";
-	$scope.formData = {currentPage : 1};
-	$scope.totalItems = 100;
-	$scope.itemsPerPage = 5;
+	var today = new Date();
+	$scope.vehicles = loadVehicles.vehicleParkings;
+	$scope.totalItems = loadVehicles.totalItems;
+	$scope.format = "dd-MM-yyyy";
+	$scope.itemsPerPage = 10;
 	$scope.maxSize = 5;
+	$scope.formData = {currentPage : 1};
+	
+	$scope.search = function() {
+		$http.post(urlPrefix + '/restAct/vehicle/findVehicleParking', {
+			licenseNo: $scope.formData.licenseNo,
+			startDate: $filter('date')($scope.formData.dateTimeStart, 'dd-MM-yyyy'),
+			endDate: $filter('date')($scope.formData.dateTimeEnd, 'dd-MM-yyyy'),
+			status: $scope.formData.status,
+			currentPage: $scope.formData.currentPage,
+	    	itemsPerPage: $scope.itemsPerPage
+		}).then(function(data) {
+			if(data.data.statusCode != 9999) {				
+				$rootScope.systemAlert(data.data.statusCode);
+				return;
+			}
+			
+			$scope.vehicles = data.data.vehicleParkings;
+			$scope.totalItems = data.data.totalItems;
+		}, function(response) {
+			$rootScope.systemAlert(response.status);
+		});
+	}
+	
+	$scope.clear = function() {
+		$scope.formData.licenseNo = "";
+		$scope.formData.dateTimeStart = "";
+		$scope.formData.dateTimeEnd = "";
+		$scope.formData.status = null;
+		$scope.formData.dateTimeStart = today;
+		$scope.formData.dateTimeEnd = today;
+	}
 	
 	$scope.openStart = function($event) {
 	    $event.preventDefault();
@@ -22,7 +53,9 @@ angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $sco
 	}
 	
 	$scope.pageChanged = function() {
-		
+		$scope.search();
 	}
+	
+	$scope.clear();
 	
 });

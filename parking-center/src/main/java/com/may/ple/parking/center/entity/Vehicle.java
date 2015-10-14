@@ -3,7 +3,6 @@ package com.may.ple.parking.center.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +16,9 @@ import javax.persistence.TemporalType;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @NamedQueries({ 
 	@NamedQuery(name = "Vehicle.findVehicle", 
 			query = "select v from Vehicle v where v.id != ?1") 
@@ -28,23 +30,15 @@ public class Vehicle implements Serializable {
 	@TableGenerator(name="vehicleId", pkColumnValue="vehicle.id", initialValue = 1, allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.TABLE, generator="vehicleId")
 	private Long id;
+	private String licenseNo;
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date inDateTime;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date outDateTime;
-	@Column(nullable=false)
-	private String licensePlate;
-	private Integer price;
-	private Integer status;
+	private Date createdDateTime;
 	
 	protected Vehicle(){}
 	
-	public Vehicle(Date inDateTime, Date outDateTime, String licensePlate, Integer price, Integer status) {
-		this.inDateTime = inDateTime;
-		this.outDateTime = outDateTime;
-		this.licensePlate = licensePlate;
-		this.price = price;
-		this.status = status;
+	public Vehicle(String licenseNo, Date createdDateTime) {
+		this.licenseNo = licenseNo;
+		this.createdDateTime = createdDateTime;
 	}
 
 	@Override
@@ -58,37 +52,23 @@ public class Vehicle implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Date getInDateTime() {
-		return inDateTime;
-	}
-	public void setInDateTime(Date inDateTime) {
-		this.inDateTime = inDateTime;
-	}
-	public Date getOutDateTime() {
-		return outDateTime;
-	}
-	public void setOuDateTime(Date ouDateTime) {
-		this.outDateTime = ouDateTime;
-	}
-	public String getLicensePlate() {
-		return licensePlate;
-	}
-	public void setLicensePlate(String licensePlate) {
-		this.licensePlate = licensePlate;
-	}
-	public Integer getPrice() {
-		return price;
-	}
-	public void setPrice(Integer price) {
-		this.price = price;
+
+	public String getLicenseNo() {
+		return licenseNo;
 	}
 
-	public Integer getStatus() {
-		return status;
+	public void setLicenseNo(String licenseNo) {
+		this.licenseNo = licenseNo;
 	}
 
-	public void setStatus(Integer status) {
-		this.status = status;
+	@JsonIgnore
+	public Date getCreatedDateTime() {
+		return createdDateTime;
+	}
+
+	@JsonProperty
+	public void setCreatedDateTime(Date createdDateTime) {
+		this.createdDateTime = createdDateTime;
 	}
 
 }
