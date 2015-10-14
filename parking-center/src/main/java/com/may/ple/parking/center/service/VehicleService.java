@@ -90,7 +90,11 @@ public class VehicleService {
 			
 			while(rst.next()) {
 				vehicle = new Vehicle(rst.getString("license_no"), null);
-				vehicleParking = new VehicleParking(rst.getTimestamp("in_date_time"), rst.getTimestamp("out_date_time"), rst.getInt("price"), rst.getInt("status"), vehicle);
+				vehicleParking = new VehicleParking(rst.getTimestamp("in_date_time"), 
+													rst.getTimestamp("out_date_time"), 
+													rst.getInt("price"), 
+													rst.getInt("status"), 
+													vehicle);
 				vehicleParking.setId(rst.getLong("id"));
 				vehicleParkings.add(vehicleParking);
 			}
