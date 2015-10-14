@@ -190,6 +190,10 @@ angular
     	}
     })
     //------------------------------------: Form :-------------------------------------------
+     .state('dashboard.setting',{
+        templateUrl:'views/setting.html',
+        url:'/setting'
+    })
       .state('dashboard.form',{
         templateUrl:'views/form.html',
         url:'/form'
