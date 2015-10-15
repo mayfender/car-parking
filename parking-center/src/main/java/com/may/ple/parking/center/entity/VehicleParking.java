@@ -2,6 +2,7 @@ package com.may.ple.parking.center.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -38,6 +40,8 @@ public class VehicleParking implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="vehicle_id")
 	private Vehicle vehicle;
+	@Transient
+	private Map<String, Long> dateTimeDiffMap;
 	
 	protected VehicleParking(){}
 
@@ -100,6 +104,14 @@ public class VehicleParking implements Serializable {
 
 	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
+	}
+
+	public Map<String, Long> getDateTimeDiffMap() {
+		return dateTimeDiffMap;
+	}
+
+	public void setDateTimeDiffMap(Map<String, Long> dateTimeDiffMap) {
+		this.dateTimeDiffMap = dateTimeDiffMap;
 	}
 
 }

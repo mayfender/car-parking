@@ -38,6 +38,26 @@ angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $sco
 		$scope.formData.dateTimeEnd = today;
 	}
 	
+	$scope.timeDiff = function(v) {
+		if(v == null) return '';
+		var result = '';
+		
+		if(v.days != 0) {
+			result += v.days + ' วัน ';
+		}
+		if(v.hours != 0) {
+			result += v.hours + ' ชั่วโมง ';
+		}
+		if(v.minutes != 0) {
+			result += v.minutes + ' นาที ';
+		}
+		if(v.seconds != 0) {
+			result += v.seconds + ' วินาที ';
+		}
+		
+		return result;
+	}
+	
 	$scope.openStart = function($event) {
 	    $event.preventDefault();
 	    $event.stopPropagation();

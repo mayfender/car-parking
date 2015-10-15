@@ -18,6 +18,7 @@ import com.may.ple.parking.center.criteria.VehicleCriteriaResp;
 import com.may.ple.parking.center.entity.Vehicle;
 import com.may.ple.parking.center.entity.VehicleParking;
 import com.may.ple.parking.center.repository.VehicleParkingRepository;
+import com.may.ple.parking.center.util.DateTimeUtil;
 
 @Service
 public class VehicleService {
@@ -56,8 +57,6 @@ public class VehicleService {
 					sql.append(" and vp.status = " + req.getStatus());
 				}
 			}
-			sql.append(" order by vp.in_date_time desc ");
-			
 			conn = dataSource.getConnection();
 			
 			//-----------------: Get size
@@ -79,8 +78,8 @@ public class VehicleService {
 			
 			
 			//-----------------: Get data 
+			sql.append(" order by vp.in_date_time desc ");
 			sql.append(" limit " + (req.getCurrentPage() - 1) * req.getItemsPerPage() + ", " + req.getItemsPerPage());
-			LOG.debug(sql);
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			rst = pstmt.executeQuery();
@@ -96,6 +95,11 @@ public class VehicleService {
 													rst.getInt("status"), 
 													vehicle);
 				vehicleParking.setId(rst.getLong("id"));
+				
+				if(vehicleParking.getInDateTime() != null && vehicleParking.getOutDateTime() != null) {					
+					vehicleParking.setDateTimeDiffMap(DateTimeUtil.dateTimeDiff(vehicleParking.getInDateTime(), vehicleParking.getOutDateTime()));					
+				}
+				
 				vehicleParkings.add(vehicleParking);
 			}
 			resp.setVehicleParkings(vehicleParkings);

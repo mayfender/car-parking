@@ -78,6 +78,7 @@
 									<th>License No.</th>
 									<th>In-time</th>
 									<th>Out-time</th>
+									<th>Diff-time</th>
 									<th>Price</th>
 									<th>Status</th>
 								</tr>
@@ -88,8 +89,13 @@
 									<td><code>{{ v.vehicle.licenseNo }}</code></td>
 									<td>{{ v.inDateTime | date : 'dd-MM-yyyy HH:mm:ss'}}</td>
 									<td>{{ v.outDateTime | date : 'dd-MM-yyyy HH:mm:ss'}}</td>
-									<td>{{ v.price }}</td>
-									<td>{{ v.status }}</td>
+									<!-- <td>{{ v.dateTimeDiffMap.days + '-' + v.dateTimeDiffMap.hours + '-' + v.dateTimeDiffMap.minutes + '-' + v.dateTimeDiffMap.seconds }}</td> -->
+									<td>{{ timeDiff(v.dateTimeDiffMap) }}</td>
+									<td>{{ v.price == 0 ? '' : v.price }}</td>
+									<td>
+										<i class="fa fa-arrow-circle-right fa-lg user-status-enabled-icon" ng-show="v.status == 0"></i>
+										<i class="fa fa-arrow-circle-left fa-lg user-status-disabled-icon" ng-show="v.status == 1"></i>
+									</td>
 								</tr>
 							</tbody>
 						</table>
