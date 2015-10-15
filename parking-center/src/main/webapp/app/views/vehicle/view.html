@@ -89,7 +89,6 @@
 									<td><code>{{ v.vehicle.licenseNo }}</code></td>
 									<td>{{ v.inDateTime | date : 'dd-MM-yyyy HH:mm:ss'}}</td>
 									<td>{{ v.outDateTime | date : 'dd-MM-yyyy HH:mm:ss'}}</td>
-									<!-- <td>{{ v.dateTimeDiffMap.days + '-' + v.dateTimeDiffMap.hours + '-' + v.dateTimeDiffMap.minutes + '-' + v.dateTimeDiffMap.seconds }}</td> -->
 									<td>{{ timeDiff(v.dateTimeDiffMap) }}</td>
 									<td>{{ v.price == 0 ? '' : v.price }}</td>
 									<td>
