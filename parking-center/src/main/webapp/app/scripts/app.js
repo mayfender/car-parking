@@ -105,7 +105,7 @@ angular
         }
       })
     .state('dashboard.vehicle',{
-        templateUrl:'views/vehicle/view.html',
+        templateUrl:'views/vehicle/search.html',
         url:'/vehicle',
         controller: 'VehicleCtrl',
         resolve: {

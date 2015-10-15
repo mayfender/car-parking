@@ -43,16 +43,16 @@ angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $sco
 		var result = '';
 		
 		if(v.days != 0) {
-			result += v.days + ' วัน ';
+			result += v.days + 'd ';
 		}
 		if(v.hours != 0) {
-			result += v.hours + ' ชั่วโมง ';
+			result += v.hours + 'h ';
 		}
 		if(v.minutes != 0) {
-			result += v.minutes + ' นาที ';
+			result += v.minutes + 'm ';
 		}
 		if(v.seconds != 0) {
-			result += v.seconds + ' วินาที ';
+			result += v.seconds + 's ';
 		}
 		
 		return result;
