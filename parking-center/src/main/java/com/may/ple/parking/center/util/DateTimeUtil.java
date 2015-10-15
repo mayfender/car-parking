@@ -5,11 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DateTimeUtil {
-	
-	/*public static void main(String[] args) {
-		HashMap<String, Long> result = dateTimeDiff(new Date(2015, 10, 10, 1, 20, 30), new Date(2015, 11, 11, 1, 21, 35));
-		System.out.println(result);
-	}*/
 
 	public static Map<String, Long> dateTimeDiff(Date dateStart, Date dateStop) {
 		long diff = dateStop.getTime() - dateStart.getTime();
