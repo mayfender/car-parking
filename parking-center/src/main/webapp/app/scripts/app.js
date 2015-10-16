@@ -109,6 +109,12 @@ angular
         url:'/vehicle',
         controller: 'VehicleCtrl',
         resolve: {
+        	loadMyFiles:function($ocLazyLoad) {
+	            return $ocLazyLoad.load({
+	          	  name:'sbAdminApp',
+	                files:['scripts/controllers/vehicle/vehicleCtrl.js']
+	            });
+        	},
             loadVehicles:function($rootScope, $http, $state, $filter, $q, urlPrefix) {
             	var today = $filter('date')(new Date(), 'dd-MM-yyyy');
             	
@@ -184,21 +190,29 @@ angular
     .state('dashboard.profile',{
         templateUrl:'views/profile/main.html',
         url:'/profile',
-    	controller: "ProfileCtrl",
+    	controller: 'ProfileCtrl',
     	resolve: {
             loadMyFiles:function($ocLazyLoad) {
               return $ocLazyLoad.load({
             	  name:'sbAdminApp',
-                  files:['styles/profile.css',
-                         'scripts/controllers/profileCtrl.js']
+                  files:['scripts/controllers/profileCtrl.js']
               });
             }
     	}
     })
     //------------------------------------: Form :-------------------------------------------
      .state('dashboard.setting',{
-        templateUrl:'views/setting.html',
-        url:'/setting'
+        templateUrl:'views/setting/setting.html',
+        url:'/setting',
+        controller: 'SettingCtrl',
+        resolve: {
+            loadMyFiles:function($ocLazyLoad) {
+              return $ocLazyLoad.load({
+            	  name:'sbAdminApp',
+                  files:['scripts/controllers/setting/settingCtrl.js']
+              });
+            }
+    	}
     })
       .state('dashboard.form',{
         templateUrl:'views/form.html',

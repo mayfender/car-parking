@@ -54,7 +54,7 @@
 				                     <input type="radio" name="userStatus" value="0" ng-model="formData.status">In parking
 				                 </label>
 				                 <label class="radio-inline">
-				                     <input type="radio" name="userStatus" value="1" ng-model="formData.status">Gone parking
+				                     <input type="radio" name="userStatus" value="1" ng-model="formData.status">Out parking
 				                 </label>
 				             </div>
 							
@@ -90,7 +90,7 @@
 									<td>{{ v.inDateTime | date : 'dd-MM-yyyy HH:mm:ss'}}</td>
 									<td>{{ v.outDateTime | date : 'dd-MM-yyyy HH:mm:ss'}}</td>
 									<td>{{ timeDiff(v.dateTimeDiffMap) }}</td>
-									<td>{{ v.price == 0 ? '' : v.price }}</td>
+									<td>{{ v.price == 0 ? '' : v.price + '-' }}</td>
 									<td>
 										<i class="fa fa-arrow-circle-right fa-lg user-status-enabled-icon" ng-show="v.status == 0"></i>
 										<i class="fa fa-arrow-circle-left fa-lg user-status-disabled-icon" ng-show="v.status == 1"></i>
