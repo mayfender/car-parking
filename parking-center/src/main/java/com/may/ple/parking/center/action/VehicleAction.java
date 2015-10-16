@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.may.ple.parking.center.criteria.VehicleCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleCriteriaResp;
+import com.may.ple.parking.center.custom.PropertiesCustom;
 import com.may.ple.parking.center.service.VehicleService;
 
 @Component
@@ -19,10 +20,12 @@ import com.may.ple.parking.center.service.VehicleService;
 public class VehicleAction {
 	private static final Logger LOG = Logger.getLogger(VehicleAction.class.getName());
 	private VehicleService service;
+	private PropertiesCustom dbProp;
 	
 	@Autowired
-	public VehicleAction(VehicleService service) {
+	public VehicleAction(VehicleService service, PropertiesCustom dbProp) {
 		this.service = service;
+		this.dbProp = dbProp;
 	}
 	
 	@POST
@@ -37,6 +40,8 @@ public class VehicleAction {
 			LOG.debug(req);
 			
 			resp = service.findVehicleParking(req);
+			
+			LOG.debug(dbProp.getDouble("price.hour"));
 			
 			LOG.debug(resp);
 		} catch (Exception e) {

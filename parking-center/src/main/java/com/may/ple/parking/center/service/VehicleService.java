@@ -72,8 +72,8 @@ public class VehicleService {
 				LOG.error(e.toString());
 				throw e;
 			} finally {
-				rst.close();
-				pstmt.close();
+				try { rst.close(); } catch (Exception e2) {}
+				try { pstmt.close(); } catch (Exception e2) {}
 			}
 			
 			
@@ -109,9 +109,9 @@ public class VehicleService {
 			LOG.error(e.toString());
 			throw e;
 		} finally {
-			rst.close();
-			pstmt.close();
-			conn.close();
+			try { rst.close(); } catch (Exception e2) {}
+			try { pstmt.close(); } catch (Exception e2) {}
+			try { conn.close(); } catch (Exception e2) {}
 		}
 	}
 	
