@@ -4,7 +4,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class VehicleCriteriaReq {
-	private String licenseNo;
+	private Integer licenseNo;
 	private String startDate;
 	private String endDate;
 	private Integer status;
@@ -16,12 +16,6 @@ public class VehicleCriteriaReq {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.DEFAULT_STYLE);
 	}
 	
-	public String getLicenseNo() {
-		return licenseNo;
-	}
-	public void setLicenseNo(String licenseNo) {
-		this.licenseNo = licenseNo;
-	}
 	public String getStartDate() {
 		return startDate;
 	}
@@ -55,6 +49,14 @@ public class VehicleCriteriaReq {
 
 	public void setItemsPerPage(Integer itemsPerPage) {
 		this.itemsPerPage = itemsPerPage;
+	}
+
+	public Integer getLicenseNo() {
+		return licenseNo;
+	}
+
+	public void setLicenseNo(Integer licenseNo) {
+		this.licenseNo = licenseNo;
 	}
 
 }

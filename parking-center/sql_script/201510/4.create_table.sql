@@ -1,16 +1,4 @@
 CREATE 
-	TABLE vehicle 
-	( 
-		id int NOT NULL, 
-		license_no varchar(30) NOT NULL, 
-		created_date_time datetime NOT NULL, 
-		PRIMARY KEY (id) 
-	) 
-	ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-	
-	
-CREATE 
 	TABLE vehicle_parking 
 	( 
 		id int NOT NULL, 
@@ -18,10 +6,19 @@ CREATE
 		out_date_time datetime, 
 		price int, 
 		status tinyint DEFAULT '0' NOT NULL, 
-		vehicle_id int NOT NULL, 
+		license_no int NOT NULL, 
 		PRIMARY KEY (id), 
-		FOREIGN KEY (vehicle_id) 
-		REFERENCES vehicle (id), 
-		INDEX vehicle_id (vehicle_id) 
-	)
+		CONSTRAINT ix1 UNIQUE (license_no) 
+	) 
 	ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	
+	
+CREATE
+    TABLE conf
+    (
+        conf_key VARCHAR(30),
+        conf_value VARCHAR(100),
+        PRIMARY KEY (conf_key)
+    )
+    ENGINE=InnoDB DEFAULT CHARSET=utf8

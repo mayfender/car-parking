@@ -19,16 +19,24 @@
 							<input class="form-control" type="checkbox" ng-model="unlimtedTime">
                 		</div>
                 		<div class="form-inline" style="margin-bottom: 20px;">
+							<label class="control-label" style="margin-right: 80px;">Price&nbsp;&nbsp;</label>						
+							<input class="form-control" type="text" ng-model="price"><label>/time</label>	
+                		</div>
+                		<div class="form-inline" style="margin-bottom: 20px;">
 							<label class="control-label" style="margin-right: 80px;">Price&nbsp;&nbsp;</label>
-							<input class="form-control" type="text" ng-model="price">&nbsp;&nbsp;<label>/hour</label>
+							before
+							<select name="roles" class="form-control">
+								<option ng-repeat="option in [1,2,3,4,5,6,7,8,9,10]" value="{{option}}">{{option}}</option>
+							</select>
+							hr
+							<input class="form-control" type="text" ng-model="price">&nbsp;&nbsp;<label>/hr</label>
+							after
+							<input class="form-control" type="text" ng-model="price">&nbsp;&nbsp;<label>/hr</label>
                 		</div>
 						<div class="form-inline">
 							<label>Time Calculation&nbsp;&nbsp;</label>
 							<select name="roles" class="form-control">
-								<option value="1">1</option>
-								<option value="15">15</option>
-								<option value="30">30</option>
-								<option value="45">45</option>
+								<option ng-repeat="option in [1,15,30,45]" value="{{option}}">{{option}}</option>
 							</select>
 							<label>&nbsp;&nbsp;minute assuming to an hour</label>
 						</div>

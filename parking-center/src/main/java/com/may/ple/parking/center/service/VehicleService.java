@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import com.may.ple.parking.center.criteria.VehicleCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleCriteriaResp;
-import com.may.ple.parking.center.entity.Vehicle;
 import com.may.ple.parking.center.entity.VehicleParking;
 import com.may.ple.parking.center.repository.VehicleParkingRepository;
 import com.may.ple.parking.center.util.DateTimeUtil;
@@ -40,12 +39,12 @@ public class VehicleService {
 		
 		try {
 			StringBuilder sql = new StringBuilder();
-			sql.append(" select vp.id, vp.in_date_time, vp.out_date_time, vp.price, vp.status, v.license_no ");
-			sql.append(" from vehicle_parking vp join vehicle v on vp.vehicle_id = v.id where 1=1 ");
+			sql.append(" select id, in_date_time, out_date_time, price, status, license_no ");
+			sql.append(" from vehicle_parking where 1=1 ");
 			
 			if(req != null) {
-				if(!StringUtils.isBlank(req.getLicenseNo())) {
-					sql.append(" and v.license_no like '%" + req.getLicenseNo() + "%'");
+				if(req.getLicenseNo() != null) {
+					sql.append(" and license_no like '%" + req.getLicenseNo() + "%' ");
 				}
 				if(!StringUtils.isBlank(req.getStartDate())) {
 					sql.append(" and in_date_time >= STR_TO_DATE('" + req.getStartDate() + " 00:00:00','%d-%m-%Y %H:%i:%s') ");
@@ -54,7 +53,7 @@ public class VehicleService {
 					sql.append(" and in_date_time <= STR_TO_DATE('" + req.getEndDate() + " 23:59:59','%d-%m-%Y %H:%i:%s') ");
 				}
 				if(req.getStatus() != null) {
-					sql.append(" and vp.status = " + req.getStatus());
+					sql.append(" and status = " + req.getStatus());
 				}
 			}
 			conn = dataSource.getConnection();
@@ -78,22 +77,20 @@ public class VehicleService {
 			
 			
 			//-----------------: Get data 
-			sql.append(" order by vp.in_date_time desc ");
+			sql.append(" order by in_date_time desc ");
 			sql.append(" limit " + (req.getCurrentPage() - 1) * req.getItemsPerPage() + ", " + req.getItemsPerPage());
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			rst = pstmt.executeQuery();
 			List<VehicleParking> vehicleParkings = new ArrayList<VehicleParking>();
 			VehicleParking vehicleParking;
-			Vehicle vehicle;
 			
 			while(rst.next()) {
-				vehicle = new Vehicle(rst.getString("license_no"), null);
 				vehicleParking = new VehicleParking(rst.getTimestamp("in_date_time"), 
 													rst.getTimestamp("out_date_time"), 
 													rst.getInt("price"), 
 													rst.getInt("status"), 
-													vehicle);
+													rst.getInt("license_no"));
 				vehicleParking.setId(rst.getLong("id"));
 				
 				if(vehicleParking.getInDateTime() != null && vehicleParking.getOutDateTime() != null) {					

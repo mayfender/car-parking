@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.TableGenerator;
@@ -37,20 +35,18 @@ public class VehicleParking implements Serializable {
 	private Date outDateTime;
 	private Integer price;
 	private Integer status;
-	@ManyToOne
-	@JoinColumn(name="vehicle_id")
-	private Vehicle vehicle;
+	private Integer licenseNo;
 	@Transient
 	private Map<String, Long> dateTimeDiffMap;
 	
 	protected VehicleParking(){}
 
-	public VehicleParking(Date inDateTime, Date outDateTime, Integer price, Integer status, Vehicle vehicle) {
+	public VehicleParking(Date inDateTime, Date outDateTime, Integer price, Integer status, Integer licenseNo) {
 		this.inDateTime = inDateTime;
 		this.outDateTime = outDateTime;
 		this.price = price;
 		this.status = status;
-		this.vehicle = vehicle;
+		this.licenseNo = licenseNo;
 	}
 	
 	@Override
@@ -98,20 +94,20 @@ public class VehicleParking implements Serializable {
 		this.status = status;
 	}
 
-	public Vehicle getVehicle() {
-		return vehicle;
-	}
-
-	public void setVehicle(Vehicle vehicle) {
-		this.vehicle = vehicle;
-	}
-
 	public Map<String, Long> getDateTimeDiffMap() {
 		return dateTimeDiffMap;
 	}
 
 	public void setDateTimeDiffMap(Map<String, Long> dateTimeDiffMap) {
 		this.dateTimeDiffMap = dateTimeDiffMap;
+	}
+
+	public Integer getLicenseNo() {
+		return licenseNo;
+	}
+
+	public void setLicenseNo(Integer licenseNo) {
+		this.licenseNo = licenseNo;
 	}
 
 }
