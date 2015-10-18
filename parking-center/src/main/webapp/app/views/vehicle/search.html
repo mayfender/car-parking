@@ -87,7 +87,7 @@
 							</thead>
 							<tbody>
 								<tr ng-repeat="v in vehicles track by $index">
-									<td>{{ $index + 1 }}</td>
+									<td>{{ $index + 1 + ((formData.currentPage - 1) * itemsPerPage) }}</td>
 									<td><code>{{ v.licenseNo }}</code></td>
 									<td>{{ v.inDateTime | date : 'dd-MM-yyyy HH:mm:ss'}}</td>
 									<td>{{ v.outDateTime | date : 'dd-MM-yyyy HH:mm:ss'}}</td>
