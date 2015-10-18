@@ -2,12 +2,13 @@ angular.module('sbAdminApp').controller('AddUserCtrl', function($rootScope, $sco
 	
 	$scope.$parent.iconBtn = 'fa-long-arrow-left';
 	$scope.$parent.url = 'search';
-	$scope.$parent.headerTitle = 'User Adding';
 	
 	if($stateParams.user) { //-- Initial edit module
+		$scope.$parent.headerTitle = 'Edit User';
 		$scope.user = $stateParams.user;
 		$scope.isEdit = true;
 	} else {                // Initial for create module
+		$scope.$parent.headerTitle = 'Add User';
 		$scope.user = {};
 		$scope.user.roles = [{}];
 		$scope.user.enabled = 1;

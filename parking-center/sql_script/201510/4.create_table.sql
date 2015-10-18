@@ -7,6 +7,8 @@ CREATE
 		price int, 
 		status tinyint DEFAULT '0' NOT NULL, 
 		license_no int NOT NULL, 
+		device_id VARCHAR(100),
+		gate_name VARCHAR(100),
 		PRIMARY KEY (id), 
 		CONSTRAINT ix1 UNIQUE (license_no) 
 	) 
@@ -21,4 +23,11 @@ CREATE
         conf_value VARCHAR(100),
         PRIMARY KEY (conf_key)
     )
-    ENGINE=InnoDB DEFAULT CHARSET=utf8
+    ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    
+insert into conf (conf_key, conf_value) values ('after.pricerate', '30');
+insert into conf (conf_key, conf_value) values ('before.hour', '1');
+insert into conf (conf_key, conf_value) values ('before.hour.pricerate', '10');
+insert into conf (conf_key, conf_value) values ('minute.to.hour', '1');
+insert into conf (conf_key, conf_value) values ('price.per.time', '20');
+insert into conf (conf_key, conf_value) values ('unlimtedTime', 'false');

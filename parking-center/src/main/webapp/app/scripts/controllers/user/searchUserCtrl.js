@@ -2,7 +2,7 @@ angular.module('sbAdminApp').controller('SearchUserCtrl', function($rootScope, $
 	
 	$scope.$parent.url = 'add';
 	$scope.$parent.iconBtn = 'fa-plus-square';
-	$scope.$parent.headerTitle = 'User Listing';
+	$scope.$parent.headerTitle = 'User List';
 	$scope.data = {};
 	$scope.data.users = loadUsers.users;
 	

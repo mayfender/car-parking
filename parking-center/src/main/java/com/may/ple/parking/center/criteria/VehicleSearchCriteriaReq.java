@@ -3,7 +3,7 @@ package com.may.ple.parking.center.criteria;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class VehicleCriteriaReq {
+public class VehicleSearchCriteriaReq {
 	private Integer licenseNo;
 	private String startDate;
 	private String endDate;

@@ -36,17 +36,21 @@ public class VehicleParking implements Serializable {
 	private Integer price;
 	private Integer status;
 	private Integer licenseNo;
+	private String deviceId;
+	private String gateName;
 	@Transient
 	private Map<String, Long> dateTimeDiffMap;
 	
 	protected VehicleParking(){}
 
-	public VehicleParking(Date inDateTime, Date outDateTime, Integer price, Integer status, Integer licenseNo) {
+	public VehicleParking(Date inDateTime, Date outDateTime, Integer price, Integer status, Integer licenseNo, String deviceId, String gateName) {
 		this.inDateTime = inDateTime;
 		this.outDateTime = outDateTime;
 		this.price = price;
 		this.status = status;
 		this.licenseNo = licenseNo;
+		this.deviceId = deviceId;
+		this.gateName = gateName;
 	}
 	
 	@Override
@@ -108,6 +112,22 @@ public class VehicleParking implements Serializable {
 
 	public void setLicenseNo(Integer licenseNo) {
 		this.licenseNo = licenseNo;
+	}
+
+	public String getDeviceId() {
+		return deviceId;
+	}
+
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
+	}
+
+	public String getGateName() {
+		return gateName;
+	}
+
+	public void setGateName(String gateName) {
+		this.gateName = gateName;
 	}
 
 }

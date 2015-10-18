@@ -80,6 +80,8 @@
 									<th>Out-time</th>
 									<th>Diff-time</th>
 									<th>Price</th>
+									<th>Device ID</th>
+									<th>Gate Name</th>
 									<th>Status</th>
 								</tr>
 							</thead>
@@ -91,6 +93,8 @@
 									<td>{{ v.outDateTime | date : 'dd-MM-yyyy HH:mm:ss'}}</td>
 									<td>{{ timeDiff(v.dateTimeDiffMap) }}</td>
 									<td>{{ v.price == 0 ? '' : v.price + '-' }}</td>
+									<td>{{ v.deviceId }}</td>
+									<td>{{ v.gateName }}</td>
 									<td>
 										<i class="fa fa-arrow-circle-right fa-lg user-status-enabled-icon" ng-show="v.status == 0"></i>
 										<i class="fa fa-arrow-circle-left fa-lg user-status-disabled-icon" ng-show="v.status == 1"></i>

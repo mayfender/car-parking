@@ -19,5 +19,10 @@ public class PropertiesCustom extends Properties {
 		String val = getProperty(key);
 		return Double.parseDouble(val);
 	}
+	
+	public Boolean getBoolean(String key) {
+		String val = getProperty(key);
+		return Boolean.parseBoolean(val);
+	}
 
 }

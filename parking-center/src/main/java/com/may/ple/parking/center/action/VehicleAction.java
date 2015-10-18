@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 
-import com.may.ple.parking.center.criteria.VehicleCriteriaReq;
-import com.may.ple.parking.center.criteria.VehicleCriteriaResp;
+import com.may.ple.parking.center.criteria.VehicleSaveCriteriaReq;
+import com.may.ple.parking.center.criteria.VehicleSaveCriteriaResp;
+import com.may.ple.parking.center.criteria.VehicleSearchCriteriaReq;
+import com.may.ple.parking.center.criteria.VehicleSearchCriteriaResp;
 import com.may.ple.parking.center.custom.PropertiesCustom;
 import com.may.ple.parking.center.service.VehicleService;
 
@@ -32,8 +34,8 @@ public class VehicleAction {
 	@Path("/findVehicleParking")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Secured("ROLE_ADMIN")
-	public VehicleCriteriaResp findVehicleParking(VehicleCriteriaReq req) {
-		VehicleCriteriaResp resp;
+	public VehicleSearchCriteriaResp findVehicleParking(VehicleSearchCriteriaReq req) {
+		VehicleSearchCriteriaResp resp;
 		LOG.debug("Start");
 		
 		try {
@@ -41,11 +43,32 @@ public class VehicleAction {
 			
 			resp = service.findVehicleParking(req);
 			
-			LOG.debug(dbProp.getDouble("price.hour"));
+			LOG.debug(resp);
+		} catch (Exception e) {
+			resp = new VehicleSearchCriteriaResp();
+			resp.setStatusCode(1000);
+			LOG.error(e.toString());
+		}
+		
+		LOG.debug("End");
+		return resp;
+	}
+	
+	@POST
+	@Path("/saveVehicleParking")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Secured("ROLE_ADMIN")
+	public VehicleSaveCriteriaResp saveVehicleParking(VehicleSaveCriteriaReq req) {
+		VehicleSaveCriteriaResp resp = new VehicleSaveCriteriaResp();
+		LOG.debug("Start");
+		
+		try {
+			LOG.debug(req);
+			
+			service.saveVehicleParking(req);
 			
 			LOG.debug(resp);
 		} catch (Exception e) {
-			resp = new VehicleCriteriaResp();
 			resp.setStatusCode(1000);
 			LOG.error(e.toString());
 		}

@@ -7,7 +7,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.may.ple.parking.center.entity.VehicleParking;
 
-public class VehicleCriteriaResp extends CommonCriteriaResp {
+public class VehicleSearchCriteriaResp extends CommonCriteriaResp {
 	private List<VehicleParking> vehicleParkings;
 	private Long totalItems;
 	

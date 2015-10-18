@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -13,8 +14,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.may.ple.parking.center.criteria.VehicleCriteriaReq;
-import com.may.ple.parking.center.criteria.VehicleCriteriaResp;
+import com.may.ple.parking.center.criteria.VehicleSaveCriteriaReq;
+import com.may.ple.parking.center.criteria.VehicleSearchCriteriaReq;
+import com.may.ple.parking.center.criteria.VehicleSearchCriteriaResp;
 import com.may.ple.parking.center.entity.VehicleParking;
 import com.may.ple.parking.center.repository.VehicleParkingRepository;
 import com.may.ple.parking.center.util.DateTimeUtil;
@@ -22,24 +24,24 @@ import com.may.ple.parking.center.util.DateTimeUtil;
 @Service
 public class VehicleService {
 	private static final Logger LOG = Logger.getLogger(VehicleService.class.getName());
-//	private VehicleParkingRepository vehicleParkingRepository;
+	private VehicleParkingRepository vehicleParkingRepository;
 	private DataSource dataSource;
 	
 	@Autowired
 	public VehicleService(VehicleParkingRepository vehicleParkingRepository, DataSource dataSource) {
-//		this.vehicleParkingRepository = vehicleParkingRepository;
+		this.vehicleParkingRepository = vehicleParkingRepository;
 		this.dataSource = dataSource;
 	}
 	
-	public VehicleCriteriaResp findVehicleParking(VehicleCriteriaReq req) throws Exception {
-		VehicleCriteriaResp resp = new VehicleCriteriaResp();
+	public VehicleSearchCriteriaResp findVehicleParking(VehicleSearchCriteriaReq req) throws Exception {
+		VehicleSearchCriteriaResp resp = new VehicleSearchCriteriaResp();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rst = null;
 		
 		try {
 			StringBuilder sql = new StringBuilder();
-			sql.append(" select id, in_date_time, out_date_time, price, status, license_no ");
+			sql.append(" select id, in_date_time, out_date_time, price, status, license_no, device_id, gate_name ");
 			sql.append(" from vehicle_parking where 1=1 ");
 			
 			if(req != null) {
@@ -71,8 +73,8 @@ public class VehicleService {
 				LOG.error(e.toString());
 				throw e;
 			} finally {
-				try { rst.close(); } catch (Exception e2) {}
-				try { pstmt.close(); } catch (Exception e2) {}
+				try { if(rst != null) rst.close(); } catch (Exception e2) {}
+				try { if(pstmt != null) pstmt.close(); } catch (Exception e2) {}
 			}
 			
 			
@@ -90,7 +92,8 @@ public class VehicleService {
 													rst.getTimestamp("out_date_time"), 
 													rst.getInt("price"), 
 													rst.getInt("status"), 
-													rst.getInt("license_no"));
+													rst.getInt("license_no"), 
+													rst.getString("device_id"), rst.getString("gate_name"));
 				vehicleParking.setId(rst.getLong("id"));
 				
 				if(vehicleParking.getInDateTime() != null && vehicleParking.getOutDateTime() != null) {					
@@ -106,9 +109,19 @@ public class VehicleService {
 			LOG.error(e.toString());
 			throw e;
 		} finally {
-			try { rst.close(); } catch (Exception e2) {}
-			try { pstmt.close(); } catch (Exception e2) {}
-			try { conn.close(); } catch (Exception e2) {}
+			try { if(rst != null) rst.close(); } catch (Exception e2) {}
+			try { if(pstmt != null) pstmt.close(); } catch (Exception e2) {}
+			try { if(conn != null) conn.close(); } catch (Exception e2) {}
+		}
+	}
+	
+	public void saveVehicleParking(VehicleSaveCriteriaReq req) {
+		try {
+			VehicleParking vehicleParking = new VehicleParking(new Date(), null, null, 0, req.getLicenseNo(), req.getDeviceId(), req.getGateName());
+			vehicleParkingRepository.save(vehicleParking);
+		} catch (Exception e) {
+			LOG.error(e.toString());
+			throw e;
 		}
 	}
 	
