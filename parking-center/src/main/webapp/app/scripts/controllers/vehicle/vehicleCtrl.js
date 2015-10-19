@@ -1,5 +1,5 @@
 angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $scope, $stateParams, $http, $state, $filter, urlPrefix, loadVehicles, toaster) {
-	console.log(loadVehicles);
+	
 	var today = new Date();
 	$scope.vehicles = loadVehicles.vehicleParkings;
 	$scope.totalItems = loadVehicles.totalItems;
@@ -36,6 +36,12 @@ angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $sco
 		$scope.formData.status = null;
 		$scope.formData.dateTimeStart = today;
 		$scope.formData.dateTimeEnd = today;
+	}
+	
+	$scope.changeItemPerPage = function() {
+		console.log('ok');
+		$scope.formData.currentPage = 1;
+		$scope.search();
 	}
 	
 	$scope.timeDiff = function(v) {
