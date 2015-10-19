@@ -18,21 +18,7 @@ angular.module('sbAdminApp').controller('ChartCtrl', ['$scope', '$timeout', func
        '#4D5360'  // dark grey
     ];
 	
-	$scope.donut = {
-		labels: ['2006', '2007', '2008'],
-    	data: [1000, 1235, 925]
-    };
-	
-	 $scope.bar = {
-		labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-
-		data: [
-	      [65, 59, 80, 81, 56, 55, 40]
-	    ]
-	};
-	
-    $scope.line = {
-	    
+	$scope.line = {
     	labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 
    	             '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', 
    	             '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'],
@@ -46,43 +32,39 @@ angular.module('sbAdminApp').controller('ChartCtrl', ['$scope', '$timeout', func
 	      console.log(points, evt);
 	    }
     };
-    
-   
-    
-    
-    
-    
+	
+	$scope.bar = {
+		labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
 
-   
-
-    $scope.radar = {
-    	labels:["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"],
-
-    	data:[
-    	    [65, 59, 90, 81, 56, 55, 40],
-    	    [28, 48, 40, 19, 96, 27, 100]
-    	]
+		data: [
+	      [65, 59, 80, 81, 56, 55, 40]
+	    ]
+	};
+	
+	$scope.donut = {
+		labels: ['2006', '2007', '2008'],
+    	data: [1000, 1235, 925],
+    	onClick: function (points, evt) {
+    		console.log(points);
+    		
+    		if(points[0].label == '2006') {
+    			$scope.bar.labels = ['January', 'February', 'March', 'April', 'May'];
+    			$scope.bar.data = [[65, 59, 80, 81, 56]];
+    			$scope.bar.colours = ['#F7464A'];
+    		}else if(points[0].label == '2007') {
+    			console.log('b');
+    			$scope.bar.labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+    			$scope.bar.data = [[65, 59, 80, 81, 56, 55]];
+    		}else{
+    			console.log('c');
+    			$scope.bar.labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+    			$scope.bar.data = [[65, 59, 80, 81, 56, 55, 40]];
+    		}
+  	    }
     };
-
-    $scope.pie = {
-    	labels : ["Download Sales", "In-Store Sales", "Mail-Order Sales"],
-    	data : [300, 500, 100]
-    };
-
-    $scope.polar = {
-    	labels : ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"],
-    	data : [300, 500, 100, 40, 120]
-    };
-
-    $scope.dynamic = {
-    	labels : ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"],
-    	data : [300, 500, 100, 40, 120],
-    	type : 'PolarArea',
-
-    	toggle : function () 
-    	{
-    		this.type = this.type === 'PolarArea' ?
-    	    'Pie' : 'PolarArea';
-		}
-    };
+	
+	
+	
+    
+    
 }]);
