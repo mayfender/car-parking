@@ -6,7 +6,7 @@
  * # MainCtrl
  * Controller of the sbAdminApp
  */
-angular.module('sbAdminApp').controller('ChartCtrl', function ($scope, $timeout, findAllYears) {
+angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scope, $timeout, $http, urlPrefix, findAllYears) {
 	console.log(findAllYears);
 	
 	Chart.defaults.global.colours = [
@@ -86,22 +86,34 @@ angular.module('sbAdminApp').controller('ChartCtrl', function ($scope, $timeout,
 		data: findAllYears.result.values,
     	
     	onClick: function (points, evt) {
-    		var fillColor = points[0].fillColor;
+    		var point = points[0];
+    		var fillColor = point.fillColor;
     		var indexOf = fillColor.lastIndexOf(',') + 1;
     		var fillColorResult = fillColor.substring(0, indexOf) + '0.2)';
     		
     		$scope.bar.colours = [{ fillColor: fillColorResult, strokeColor: fillColor }];
     		
-    		if(points[0].label == '2006') {
-    			$scope.bar.labels = ['January', 'February', 'March', 'April', 'May'];
-    			$scope.bar.data = [[65, 59, 80, 81, 56]];
+    		console.log(point);
+    		$http.get(urlPrefix + '/restAct/report/reportMonth?year=' + point.label)
+    		.then(function(data) {
+        		if(data.data.statusCode != 9999) {
+        			$rootScope.systemAlert(data.data.statusCode);
+        			return;
+        		}	    		
+        		
+        		$scope.bar.data = [data.data.result.values];
+    	    }, function(response) {
+    	    	$rootScope.systemAlert(response.status);
+    	    });
+    		
+    		
+    		/*if(points[0].label == '2006') {
+    			$scope.bar.data = [[65, 59, 80, 81, 56, 65, 59, 80, 81, 56, 65, 88]];
     		}else if(points[0].label == '2007') {
-    			$scope.bar.labels = ['January', 'February', 'March', 'April', 'May', 'June'];
-    			$scope.bar.data = [[65, 59, 80, 81, 56, 55]];
+    			$scope.bar.data = [[65, 59, 80, 81, 56, 55, 65, 59, 80, 81, 56, 55]];
     		}else{
-    			$scope.bar.labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-    			$scope.bar.data = [[65, 59, 80, 81, 56, 55, 40]];
-    		}
+    			$scope.bar.data = [[65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56]];
+    		}*/
   	    }
     };
 	

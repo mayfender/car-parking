@@ -82,20 +82,28 @@ public class ReportService {
 			sql.append(" sum(month(in_date_time) = 11) as nov, ");
 			sql.append(" sum(month(in_date_time) = 12) as decem ");
 			sql.append(" from vehicle_parking ");
-			sql.append(" where year(in_date_time) = ?1 ");
+			sql.append(" where year(in_date_time) = ? ");
 			
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, year);
 			rst = pstmt.executeQuery();
-			List<String> years = new ArrayList<String>();
 			List<String> values = new ArrayList<String>();
 			
-			while(rst.next()) {
-				years.add(rst.getString("jan"));
-				values.add(rst.getString("feb"));
+			if(rst.next()) {
+				values.add(rst.getString(1));
+				values.add(rst.getString(2));
+				values.add(rst.getString(3));
+				values.add(rst.getString(4));
+				values.add(rst.getString(5));
+				values.add(rst.getString(6));
+				values.add(rst.getString(7));
+				values.add(rst.getString(8));
+				values.add(rst.getString(9));
+				values.add(rst.getString(10));
+				values.add(rst.getString(11));
+				values.add(rst.getString(12));
 			}
-			result.put("years", years);
 			result.put("values", values);
 			
 			return result;

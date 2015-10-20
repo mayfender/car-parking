@@ -52,7 +52,7 @@ public class ReportAction {
 		LOG.debug("Start");
 		
 		try {
-			
+			LOG.debug("year: " + year);
 			resp.setResult(reportService.reportMonth(year));
 			
 			LOG.debug(resp);
