@@ -9,8 +9,7 @@ CREATE
 		license_no int NOT NULL, 
 		device_id VARCHAR(100),
 		gate_name VARCHAR(100),
-		PRIMARY KEY (id), 
-		CONSTRAINT ix1 UNIQUE (license_no) 
+		PRIMARY KEY (id)
 	) 
 	ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

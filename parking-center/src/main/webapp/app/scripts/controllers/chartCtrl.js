@@ -6,7 +6,8 @@
  * # MainCtrl
  * Controller of the sbAdminApp
  */
-angular.module('sbAdminApp').controller('ChartCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
+angular.module('sbAdminApp').controller('ChartCtrl', function ($scope, $timeout, findAllYears) {
+	console.log(findAllYears);
 	
 	Chart.defaults.global.colours = [
 	   '#46BFBD', // green
@@ -80,9 +81,9 @@ angular.module('sbAdminApp').controller('ChartCtrl', ['$scope', '$timeout', func
 	    }
 	};
 	
-	$scope.donut = {	
-		labels: ['2006', '2007', '2008', '2009', '2010', '2011', '2012'],
-    	data: [1000, 1235, 925, 925, 922, 911, 910],
+	$scope.donut = {
+		labels: findAllYears.result.years,
+		data: findAllYears.result.values,
     	
     	onClick: function (points, evt) {
     		var fillColor = points[0].fillColor;
@@ -114,4 +115,4 @@ angular.module('sbAdminApp').controller('ChartCtrl', ['$scope', '$timeout', func
 		$scope.unit = units.money;
 	}
     
-}]);
+});
