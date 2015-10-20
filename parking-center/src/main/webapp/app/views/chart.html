@@ -7,7 +7,7 @@
 <div class="row">
 	<div class="col-lg-6 col-sm-12" id="doughnut-chart">
         <div class="panel panel-default">
-            <div class="panel-heading">สรุปจำนวนรถที่เข้าจอด (<code>ปี:คัน</code>) 
+            <div class="panel-heading">{{ title }} (<code>ปี:คัน</code>) 
             
             	<div class="btn-group pull-right">
 		            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -15,12 +15,12 @@
 		            </button>
 		            <ul class="dropdown-menu slidedown">
 		                <li>
-		                    <a href="#">
+		                    <a ng-click="chartVehicle()">
 		                        <i class="fa fa-car fa-fw"></i> ข้อมูลรถ
 		                    </a>
 		                </li>
 		                <li>
-		                    <a href="#">
+		                    <a ng-click="chartMoney()">
 		                        <i class="fa fa-btc fa-fw"></i> ข้อมูลการเงิน
 		                    </a>
 		                </li>
@@ -36,7 +36,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">สรุปจำนวนรถที่เข้าจอด (<code>เดือน:คัน</code>)</div>
             <div class="panel-body">
-                <canvas id="bar" class="chart chart-bar" data="bar.data" labels="bar.labels" options="bar.options" colours="bar.colours"></canvas>
+                <canvas id="bar" class="chart chart-bar" data="bar.data" labels="bar.labels" options="bar.options" colours="bar.colours" click="bar.onClick"></canvas>
             </div>
         </div>
     </div>    

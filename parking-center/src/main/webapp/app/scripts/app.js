@@ -16,12 +16,13 @@ angular
     'angular-loading-bar',
     'ngSanitize',
     'base64',
-    'toaster'
+    'toaster',
+    'chart.js'
   ])
   
   .value('urlPrefix', '/parking-center') //-------- '/parking-center' or ''
   
-  .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider', '$httpProvider', function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider, $httpProvider) {
+  .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider', '$httpProvider', function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $httpProvider) {
 	 
 	 $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 	 $httpProvider.interceptors.push('httpInterceptor');
@@ -30,6 +31,19 @@ angular
 	      debug:false,
 	      events:true,
 	 });
+	 
+	 /*ChartJsProvider.setOptions({
+	      colours: [
+	        '#46BFBD', // green
+	        '#F7464A', // red
+	        '#DCDCDC', // light grey	
+	        '#97BBCD', // blue
+	        '#FDB45C', // yellow
+	        '#949FB1', // grey
+	        '#4D5360'  // dark grey
+	      ],
+	      responsive: false
+	    });*/
 
     $urlRouterProvider.otherwise('/dashboard/vehicle');
 
@@ -215,13 +229,6 @@ angular
         resolve: {
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
-              name:'chart.js',
-              files:[
-                'lib/angular-chart.min.js',
-                'lib/css/angular-chart.css'
-              ]
-            }),
-            $ocLazyLoad.load({
                 name:'sbAdminApp',
                 files:['scripts/controllers/chartContoller.js']
             })
