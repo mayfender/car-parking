@@ -7,6 +7,7 @@ angular.module('sbAdminApp').controller('SettingCtrl', function($rootScope, $sco
 	$scope.pricePerTime = loadSetting.pricePerTime;
 	$scope.beforeHourPriceRate = loadSetting.beforeHourPriceRate;
 	$scope.afterPriceRate = loadSetting.afterPriceRate;
+	$scope.parkingSize = loadSetting.parkingSize;
 	
 	$scope.unlimtedTimeChange = function() {
 		
@@ -19,7 +20,8 @@ angular.module('sbAdminApp').controller('SettingCtrl', function($rootScope, $sco
 			minuteToHour: $scope.minuteToHour,
 			pricePerTime: $scope.pricePerTime,
 			beforeHourPriceRate: $scope.beforeHourPriceRate,
-			afterPriceRate: $scope.afterPriceRate
+			afterPriceRate: $scope.afterPriceRate,
+			parkingSize: $scope.parkingSize
 		}).then(function(data) {
 			if(data.data.statusCode != 9999) {				
 				if(data.data.statusCode == 2000) {

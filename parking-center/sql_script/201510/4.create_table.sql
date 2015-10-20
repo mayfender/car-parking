@@ -30,4 +30,5 @@ insert into conf (conf_key, conf_value) values ('before.hour', '1');
 insert into conf (conf_key, conf_value) values ('before.hour.pricerate', '10');
 insert into conf (conf_key, conf_value) values ('minute.to.hour', '1');
 insert into conf (conf_key, conf_value) values ('price.per.time', '20');
-insert into conf (conf_key, conf_value) values ('unlimtedTime', 'false');
+insert into conf (conf_key, conf_value) values ('unlimted.time', 'false');
+insert into conf (conf_key, conf_value) values ('parking.size', '-1');

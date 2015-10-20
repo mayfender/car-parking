@@ -41,7 +41,8 @@ public class SettingAction {
 			resp.setBeforeHourPriceRate(dbProp.getInt("before.hour.pricerate"));
 			resp.setMinuteToHour(dbProp.getInt("minute.to.hour"));
 			resp.setPricePerTime(dbProp.getInt("price.per.time"));
-			resp.setUnlimtedTime(dbProp.getBoolean("unlimtedTime"));
+			resp.setUnlimtedTime(dbProp.getBoolean("unlimted.time"));
+			resp.setParkingSize(dbProp.getInt("parking.size"));
 			
 			LOG.debug(resp);
 		} catch (Exception e) {

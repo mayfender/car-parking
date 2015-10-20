@@ -9,6 +9,7 @@ public class SettingUpdateCriteriaReq {
 	private Integer beforeHourPriceRate;
 	private Integer minuteToHour;
 	private Integer pricePerTime;
+	private Integer parkingSize;
 	private Boolean unlimtedTime;
 	
 	@Override
@@ -55,6 +56,14 @@ public class SettingUpdateCriteriaReq {
 
 	public void setBeforeHourPriceRate(Integer beforeHourPriceRate) {
 		this.beforeHourPriceRate = beforeHourPriceRate;
+	}
+
+	public Integer getParkingSize() {
+		return parkingSize;
+	}
+
+	public void setParkingSize(Integer parkingSize) {
+		this.parkingSize = parkingSize;
 	}
 	
 }

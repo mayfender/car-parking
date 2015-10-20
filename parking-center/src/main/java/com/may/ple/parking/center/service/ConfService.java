@@ -31,20 +31,23 @@ public class ConfService {
 			String minuteToHour = String.valueOf(req.getMinuteToHour());
 			String pricePerTime = String.valueOf(req.getPricePerTime());
 			String unlimtedTime = String.valueOf(req.getUnlimtedTime());
+			String parkingSize = String.valueOf(req.getParkingSize());
 			
 			confRepository.findOne("after.pricerate").setConfValue(afterPriceRate);
 			confRepository.findOne("before.hour").setConfValue(beforeHour);
 			confRepository.findOne("before.hour.pricerate").setConfValue(beforeHourPriceRate);
 			confRepository.findOne("minute.to.hour").setConfValue(minuteToHour);
 			confRepository.findOne("price.per.time").setConfValue(pricePerTime);
-			confRepository.findOne("unlimtedTime").setConfValue(unlimtedTime);
+			confRepository.findOne("unlimted.time").setConfValue(unlimtedTime);
+			confRepository.findOne("parking.size").setConfValue(parkingSize);
 			
 			dbProp.put("after.pricerate", afterPriceRate);
 			dbProp.put("before.hour", beforeHour);
 			dbProp.put("before.hour.pricerate", beforeHourPriceRate);
 			dbProp.put("minute.to.hour", minuteToHour);
 			dbProp.put("price.per.time", pricePerTime);
-			dbProp.put("unlimtedTime", unlimtedTime);
+			dbProp.put("unlimted.time", unlimtedTime);
+			dbProp.put("parking.size", parkingSize);
 		} catch (Exception e) {
 			LOG.error(e.toString());
 			throw e;
