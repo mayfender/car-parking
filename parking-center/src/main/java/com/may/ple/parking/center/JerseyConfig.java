@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
+import com.may.ple.parking.center.action.ReportAction;
 import com.may.ple.parking.center.action.SettingAction;
 import com.may.ple.parking.center.action.UserAction;
 import com.may.ple.parking.center.action.VehicleAction;
@@ -19,7 +20,8 @@ public class JerseyConfig extends ResourceConfig {
 		LOG.debug(":----------: Register Rest Service :----------:");
 		register(UserAction.class).
 		register(VehicleAction.class).
-		register(SettingAction.class);
+		register(SettingAction.class).
+		register(ReportAction.class);
 	}
 
 }

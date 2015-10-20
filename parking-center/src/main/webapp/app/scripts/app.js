@@ -219,6 +219,19 @@ angular
                 name:'sbAdminApp',
                 files:['scripts/controllers/chartCtrl.js']
             })
+          },
+          loadSetting:function($rootScope, $http, $state, $q, urlPrefix) {
+          	return $http.get(urlPrefix + '/restAct/report/loadReport')
+          		  .then(function(data){
+	            		if(data.data.statusCode != 9999) {
+	            			$rootScope.systemAlert(data.data.statusCode);
+	            			return $q.reject(data);
+	            		}
+      		
+	            		return data.data;
+          		  }, function(response) {
+          			  $rootScope.systemAlert(response.status);
+		          });
           }
         }
     })

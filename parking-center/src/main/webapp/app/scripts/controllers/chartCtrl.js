@@ -29,21 +29,19 @@ angular.module('sbAdminApp').controller('ChartCtrl', ['$scope', '$timeout', func
    	             '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'],
 	    
    	    data: [
-   	           [100, 150, 150, 110, 120, 130, 111, 132, 80, 70,
-   	    		211, 111, 123, 121, 142, 122, 122, 111, 150, 57,
-   	    		132, 104, 102, 87, 98, 54, 89, 99, 114, 145, 214]
+   	           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+   	    		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+   	    		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
    	    ],
 	   	
-   	    onClick: function (points, evt) {
-   	    	//console.log(points);
-	   	}
+   	    onClick: function (points, evt) {}
     };
 	
 	$scope.bar = {
-		labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+		labels: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
 
 		data: [
-	      [65, 59, 80, 81, 56, 55, 40]
+	      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	    ],
 	    
 	    onClick: function (points, evt) {
