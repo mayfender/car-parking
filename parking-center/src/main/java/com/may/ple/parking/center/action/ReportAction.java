@@ -64,5 +64,26 @@ public class ReportAction {
 		LOG.debug("End");
 		return resp;
 	}
+	
+	@GET
+	@Path("/reportDay")
+	@Secured("ROLE_ADMIN")
+	public ReportCriteriaResp reportDay(@QueryParam("year") String year, @QueryParam("month") String month) {
+		ReportCriteriaResp resp = new ReportCriteriaResp();
+		LOG.debug("Start");
+		
+		try {
+			LOG.debug("year: " + year + ", month: " + month);
+			resp.setResult(reportService.reportDay(year, month));
+			
+			LOG.debug(resp);
+		} catch (Exception e) {
+			resp.setStatusCode(1000);
+			LOG.error(e.toString());
+		}
+		
+		LOG.debug("End");
+		return resp;
+	}
 
 }

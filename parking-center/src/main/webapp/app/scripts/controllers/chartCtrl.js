@@ -21,8 +21,14 @@ angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scop
 	
 	var titles = {vehicle: 'สรุปจำนวนรถที่เข้าจอด', money: 'สรุปจำนวนเงินที่ได้รับ'};
 	var units = {vehicle: 'จำนวนคัน', money: 'จำนวนเงิน'};
+	var year;
 	$scope.title = titles.vehicle;
 	$scope.unit = units.vehicle;
+	var labels = {months: {'ม.ค.':'01', 'ก.พ.':'02', 'มี.ค.':'03', 'เม.ย.':'04', 'พ.ค.':'05', 'มิ.ย.':'06', 
+        				   'ก.ค.':'07', 'ส.ค.':'08', 'ก.ย.':'09', 'ต.ค.':'10', 'พ.ย.':'11', 'ธ.ค.':'12'}};
+	
+	var keys = [];
+	for(var k in labels.months) keys.push(k);
 	
 	$scope.line = {
     	labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 
@@ -38,15 +44,20 @@ angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scop
    	    onClick: function (points, evt) {}
     };
 	
+	
+	
+	
+	console.log(keys);
+	
 	$scope.bar = {
-		labels: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
-
+		labels: keys,
 		data: [
 	      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	    ],
 	    
 	    onClick: function (points, evt) {
 	    	var point = points[0];
+	    	if(point == null || point.value == null || point.value == 0) return;
 	    	
 	    	$scope.line.colours = [{
 	    		fillColor: point.fillColor, 
@@ -58,26 +69,18 @@ angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scop
 	    		
 	    	}];
 	    	
-	    	if(points[0].label == 'January') {
-	    		$scope.line.labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 
-	    		                      '11', '12', '13', '14', '15', '16', '17', '18', '19', '20']
-	    		$scope.line.data = [[100, 150, 150, 110, 120, 130, 111, 132, 80, 70,
-	    		        	    		211, 111, 123, 121, 142, 122, 122, 111, 150, 57]];
-	    	}else if(points[0].label == 'February') {
-	    		$scope.line.labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 
-	    		                      '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-	    		                      '21', '22', '23', '24', '25']
-	    		$scope.line.data = [[100, 150, 150, 110, 120, 130, 111, 132, 80, 70,
-	    		        	    		211, 111, 123, 121, 142, 122, 122, 111, 150, 57,
-	    		        	    		132, 104, 102, 87, 98]];
-	    	}else{
-	    		$scope.line.labels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 
-	    		                      '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-	    		                      '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31']
-	    		$scope.line.data = [[100, 150, 150, 110, 120, 130, 111, 132, 80, 70,
-	    		        	    		211, 111, 123, 121, 142, 122, 122, 111, 150, 57,
-	    		        	    		132, 104, 102, 87, 98, 54, 89, 99, 114, 145, 214]];
-	    	}
+	    	
+	    	$http.get(urlPrefix + '/restAct/report/reportDay?year=' + year + '&month=' + labels.months[point.label])
+    		.then(function(data) {
+        		if(data.data.statusCode != 9999) {
+        			$rootScope.systemAlert(data.data.statusCode);
+        			return;
+        		}	    		
+        		
+        		$scope.line.data = [data.data.result.values];
+    	    }, function(response) {
+    	    	$rootScope.systemAlert(response.status);
+    	    });
 	    }
 	};
 	
@@ -90,11 +93,10 @@ angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scop
     		var fillColor = point.fillColor;
     		var indexOf = fillColor.lastIndexOf(',') + 1;
     		var fillColorResult = fillColor.substring(0, indexOf) + '0.2)';
-    		
+    		year = point.label;
     		$scope.bar.colours = [{ fillColor: fillColorResult, strokeColor: fillColor }];
     		
-    		console.log(point);
-    		$http.get(urlPrefix + '/restAct/report/reportMonth?year=' + point.label)
+    		$http.get(urlPrefix + '/restAct/report/reportMonth?year=' + year)
     		.then(function(data) {
         		if(data.data.statusCode != 9999) {
         			$rootScope.systemAlert(data.data.statusCode);
@@ -105,15 +107,6 @@ angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scop
     	    }, function(response) {
     	    	$rootScope.systemAlert(response.status);
     	    });
-    		
-    		
-    		/*if(points[0].label == '2006') {
-    			$scope.bar.data = [[65, 59, 80, 81, 56, 65, 59, 80, 81, 56, 65, 88]];
-    		}else if(points[0].label == '2007') {
-    			$scope.bar.data = [[65, 59, 80, 81, 56, 55, 65, 59, 80, 81, 56, 55]];
-    		}else{
-    			$scope.bar.data = [[65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56]];
-    		}*/
   	    }
     };
 	
