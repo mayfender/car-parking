@@ -7,7 +7,6 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scope, $timeout, $http, urlPrefix, findAllYears) {
-	console.log(findAllYears);
 	
 	Chart.defaults.global.colours = [
 	   '#46BFBD', // green
@@ -21,40 +20,34 @@ angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scop
 	
 	var titles = {vehicle: 'สรุปจำนวนรถที่เข้าจอด', money: 'สรุปจำนวนเงินที่ได้รับ'};
 	var units = {vehicle: 'จำนวนคัน', money: 'จำนวนเงิน'};
-	var year;
+	var year = findAllYears.result.years[0];
 	$scope.title = titles.vehicle;
 	$scope.unit = units.vehicle;
 	var labels = {months: {'ม.ค.':'01', 'ก.พ.':'02', 'มี.ค.':'03', 'เม.ย.':'04', 'พ.ค.':'05', 'มิ.ย.':'06', 
         				   'ก.ค.':'07', 'ส.ค.':'08', 'ก.ย.':'09', 'ต.ค.':'10', 'พ.ย.':'11', 'ธ.ค.':'12'}};
 	
+	var labelsLineInit = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 
+					      '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', 
+					      '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
+	var dataLineInit = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	           	    	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	           	    	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+	
 	var keys = [];
 	for(var k in labels.months) keys.push(k);
 	
 	$scope.line = {
-    	labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 
-   	             '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', 
-   	             '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'],
+    	labels: labelsLineInit,
 	    
-   	    data: [
-   	           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-   	    		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-   	    		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-   	    ],
+   	    data: dataLineInit,
 	   	
    	    onClick: function (points, evt) {}
     };
-	
-	
-	
-	
-	console.log(keys);
-	
+		
 	$scope.bar = {
 		labels: keys,
-		data: [
-	      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	    ],
-	    
+		data: [findAllYears.result.monthValues || [0,0,0,0,0,0,0,0,0,0,0,0]],
+		
 	    onClick: function (points, evt) {
 	    	var point = points[0];
 	    	if(point == null || point.value == null || point.value == 0) return;
@@ -69,8 +62,15 @@ angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scop
 	    		
 	    	}];
 	    	
+	    	var action;
+	    	if($scope.title == titles.money) 
+	    		action = 'reportMoneyDay';
+	    	else 
+	    		action = 'reportVehicleDay';
 	    	
-	    	$http.get(urlPrefix + '/restAct/report/reportDay?year=' + year + '&month=' + labels.months[point.label])
+	    	var monthNum = labels.months[point.label];
+	    	
+	    	$http.get(urlPrefix + '/restAct/report/' + action + '?year=' + year + '&month=' + monthNum)
     		.then(function(data) {
         		if(data.data.statusCode != 9999) {
         			$rootScope.systemAlert(data.data.statusCode);
@@ -78,6 +78,12 @@ angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scop
         		}	    		
         		
         		$scope.line.data = [data.data.result.values];
+        		
+        		var numDays = new Date(year, monthNum, 0).getDate();
+        		var days = [];
+        		for (var i = 1; i <= numDays; i++) days.push(i);
+        		$scope.line.labels = days;
+        		
     	    }, function(response) {
     	    	$rootScope.systemAlert(response.status);
     	    });
@@ -90,13 +96,21 @@ angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scop
     	
     	onClick: function (points, evt) {
     		var point = points[0];
+	    	if(point == null || point.value == null || point.value == 0) return;
+    		
     		var fillColor = point.fillColor;
     		var indexOf = fillColor.lastIndexOf(',') + 1;
     		var fillColorResult = fillColor.substring(0, indexOf) + '0.2)';
     		year = point.label;
     		$scope.bar.colours = [{ fillColor: fillColorResult, strokeColor: fillColor }];
     		
-    		$http.get(urlPrefix + '/restAct/report/reportMonth?year=' + year)
+    		var action;
+	    	if($scope.title == titles.money) 
+	    		action = 'reportMoneyMonth';
+	    	else 
+	    		action = 'reportVehicleMonth';
+    		
+    		$http.get(urlPrefix + '/restAct/report/' + action + '?year=' + year)
     		.then(function(data) {
         		if(data.data.statusCode != 9999) {
         			$rootScope.systemAlert(data.data.statusCode);
@@ -104,6 +118,8 @@ angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scop
         		}	    		
         		
         		$scope.bar.data = [data.data.result.values];
+        		$scope.line.data = dataLineInit;
+        		$scope.line.labels = labelsLineInit;
     	    }, function(response) {
     	    	$rootScope.systemAlert(response.status);
     	    });
@@ -111,13 +127,51 @@ angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scop
     };
 	
 	$scope.chartVehicle = function() {
+		if($scope.title == titles.vehicle) return;
+		
 		$scope.title = titles.vehicle;
 		$scope.unit = units.vehicle;
+		
+		$http.get(urlPrefix + '/restAct/report/reportVehicleYear')
+		  .then(function(data){
+      		if(data.data.statusCode != 9999) {
+      			$rootScope.systemAlert(data.data.statusCode);
+      		}
+      		
+      		setChangeModeResult(data.data);
+		  }, function(response) {
+			  $rootScope.systemAlert(response.status);
+        });
 	}
 	
 	$scope.chartMoney = function() {
+		if($scope.title == titles.money) return;
+		
 		$scope.title = titles.money;
 		$scope.unit = units.money;
+			
+		$http.get(urlPrefix + '/restAct/report/reportMoneyYear')
+		  .then(function(data){
+    		if(data.data.statusCode != 9999) {
+    			$rootScope.systemAlert(data.data.statusCode);
+    		}
+    		
+      		setChangeModeResult(data.data);
+		  }, function(response) {
+			  $rootScope.systemAlert(response.status);
+      });
 	}
+	
+	function setChangeModeResult(data) {
+		year = data.result.years[0];
+		$scope.donut.labels = data.result.years;
+  		$scope.donut.data = data.result.values;
+  		$scope.bar.data = [data.result.monthValues || [0,0,0,0,0,0,0,0,0,0,0,0]];
+  		$scope.line.data = dataLineInit;
+  		$scope.line.labels = labelsLineInit;
+  		$scope.bar.colours = [Chart.defaults.global.colours[0]];
+  		$scope.line.colours = [Chart.defaults.global.colours[0]];
+	}
+	
     
 });

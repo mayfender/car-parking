@@ -221,7 +221,7 @@ angular
             })
           },
           findAllYears:function($rootScope, $http, $state, $q, urlPrefix) {
-          	return $http.get(urlPrefix + '/restAct/report/reportYear')
+          	return $http.get(urlPrefix + '/restAct/report/reportVehicleYear')
           		  .then(function(data){
 	            		if(data.data.statusCode != 9999) {
 	            			$rootScope.systemAlert(data.data.statusCode);

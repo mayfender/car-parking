@@ -20,6 +20,24 @@ sum(month(in_date_time) = 12) as decem
 from vehicle_parking
 where year(in_date_time) = 2013
 
+//------------------------------: Money :---------------------------------------
+select 
+sum(case when month(in_date_time) = 01 THEN price ELSE 0 END) as jan,
+sum(case when month(in_date_time) = 02 THEN price ELSE 0 END) as feb,
+sum(case when month(in_date_time) = 03 THEN price ELSE 0 END) as mar,
+sum(case when month(in_date_time) = 04 THEN price ELSE 0 END) as apr,
+sum(case when month(in_date_time) = 05 THEN price ELSE 0 END) as may,
+sum(case when month(in_date_time) = 06 THEN price ELSE 0 END) as june,
+sum(case when month(in_date_time) = 07 THEN price ELSE 0 END) as july,
+sum(case when month(in_date_time) = 08 THEN price ELSE 0 END) as aug,
+sum(case when month(in_date_time) = 09 THEN price ELSE 0 END) as sept,
+sum(case when month(in_date_time) = 10 THEN price ELSE 0 END) as oct,
+sum(case when month(in_date_time) = 11 THEN price ELSE 0 END) as nov,
+sum(case when month(in_date_time) = 12 THEN price ELSE 0 END) as decem
+
+from vehicle_parking
+where year(in_date_time) = 2014
+
 
 //---------------------------------------------------------------------
 
