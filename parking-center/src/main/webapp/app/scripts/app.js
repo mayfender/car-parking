@@ -39,7 +39,7 @@ angular
         prefix: 'i18n/locale-',
         suffix: '.json'
     });
-	$translateProvider.preferredLanguage('th_TH');
+	$translateProvider.preferredLanguage('en_US');
 	
 	//----------------------------------------------------------------------------
     $urlRouterProvider.otherwise('/dashboard/vehicle');

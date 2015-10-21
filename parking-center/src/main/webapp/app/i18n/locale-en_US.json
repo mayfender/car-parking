@@ -1,4 +1,4 @@
 {
-    "title": "สวัสดครับ 55",
-	"foo": "ทดสอบ ทดสอบ 5555"
+	"login.title": "Please Sign In",
+    "login.login_btn": "Login"
 }
