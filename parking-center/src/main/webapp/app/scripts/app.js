@@ -18,7 +18,8 @@ angular
     'base64',
     'toaster',
     'chart.js',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'ngSanitize'
   ])
   
   .value('urlPrefix', '/parking-center') //-------- '/parking-center' or ''
@@ -39,7 +40,8 @@ angular
         prefix: 'i18n/locale-',
         suffix: '.json'
     });
-	$translateProvider.preferredLanguage('en_US');
+	$translateProvider.preferredLanguage('th_TH');
+	$translateProvider.useSanitizeValueStrategy(null);
 	
 	//----------------------------------------------------------------------------
     $urlRouterProvider.otherwise('/dashboard/vehicle');

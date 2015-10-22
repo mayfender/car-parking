@@ -1,5 +1,49 @@
 {
-	"login.title": "กรอกข้อมูล เพื่อเข้าสู่ระบบ",
-    "title": "สวัสดครับ 55",
-	"foo": "ทดสอบ ทดสอบ 5555"
+	"login.title": "เข้าสู่ระบบ Car-Parking",
+    "login.login_btn": "เข้าสู่ระบบ",
+    
+    "search.header_title": "ข้อมูลรถ",
+    "search.header_panel": "ค้นหาข้อมูลรถ",
+    "search.license_no": "เลขป้ายทะเบียน",
+    "search.start_date": "วันเริ่มต้น",
+    "search.end_date": "วันสิ้นสุด",
+    "search.status": "สถานะ",
+    "search.status.in": "จอดอยู่",
+    "search.status.out": "ออกแล้ว",
+    "search.clear_btn": "ล้าง",
+    "search.searhc_btn": "ค้นหา",
+    
+    "pagination.page": "หน้า",
+    "pagination.of": "ของ",
+    "pagination.total": "ทั้งหมด",
+    "pagination.items": "รายการ",
+    "pagination.per_page": "ต่อหน้า",
+    "pagination.first": "หน้าแรก",
+    "pagination.previous": "ก่อนหน้า",
+    "pagination.next": "ถัดไป",
+    "pagination.last": "หน้าสุดท้าย",
+    
+    "search.table.header.license_no": "เลขป้ายทะเบียน",
+    "search.table.header.in_time": "เวลาเข้า",
+    "search.table.header.out_time": "เวลาออก",
+    "search.table.header.diff_time": "รวมเวลาจอด",
+    "search.table.header.price": "ราคา",
+    "search.table.header.device_id": "เครื่องที่บันทึก",
+    "search.table.header.gate_name": "ชื่อทางเข้า-ออก",
+    "search.table.header.status": "สถานะ",
+    
+    "chart.header_title": "กราฟข้อมูล",
+    "chart.header_panel.vehicle": "สรุปจำนวนรถที่เข้าจอด",
+    "chart.header_panel.money": "สรุปจำนวนเงินที่ได้รับ",
+    "chart.dropdown.vehicle": "ข้อมูลรถ",
+    "chart.dropdown.money": "ข้อมูลการเงิน",
+    "chart.time.unit_year": "ปี",
+    "chart.time.unit_month": "เดือน",
+    "chart.time.unit_day": "วัน",
+    "chart.unit.vehicle": "จำนวนคัน",
+    "chart.unit.money": "จำนวนเงิน"
+    
+    
+    
+    
 }

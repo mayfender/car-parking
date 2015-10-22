@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">กราฟข้อมูล</h1>
+        <h1 class="page-header">{{'chart.header_title' | translate}}</h1>
     </div>
 </div>
 <div class="row">
 	<div class="col-lg-6 col-sm-12" id="doughnut-chart">
         <div class="panel panel-default">
-            <div class="panel-heading">{{ title }} (<code>ปี:{{ unit }}</code>) 
+            <div class="panel-heading">{{ title }} (<code>{{'chart.time.unit_year' | translate}}:{{ unit }}</code>) 
             
             	<div class="btn-group pull-right">
 		            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -15,12 +15,12 @@
 		            <ul class="dropdown-menu slidedown">
 		                <li>
 		                    <a ng-click="chartVehicle()">
-		                        <i class="fa fa-car fa-fw"></i> ข้อมูลรถ
+		                        <i class="fa fa-car fa-fw"></i> {{'chart.dropdown.vehicle' | translate}}
 		                    </a>
 		                </li>
 		                <li>
 		                    <a ng-click="chartMoney()">
-		                        <i class="fa fa-btc fa-fw"></i> ข้อมูลการเงิน
+		                        <i class="fa fa-btc fa-fw"></i> {{'chart.dropdown.money' | translate}}
 		                    </a>
 		                </li>
 		            </ul>
@@ -33,7 +33,7 @@
     </div>
 	<div class="col-lg-6 col-sm-12" id="bar-chart">
         <div class="panel panel-default">
-            <div class="panel-heading">{{ title }} (<code>เดือน:{{ unit }}</code>)</div>
+            <div class="panel-heading">{{ title }} (<code>{{'chart.time.unit_month' | translate}}:{{ unit }}</code>)</div>
             <div class="panel-body">
                 <canvas id="bar" class="chart chart-bar" data="bar.data" labels="bar.labels" options="bar.options" colours="bar.colours" click="bar.onClick"></canvas>
             </div>
@@ -44,7 +44,7 @@
 <div class="row">
 	<div class="col-lg-12 col-sm-12" id="line-chart">
         <div class="panel panel-default">
-            <div class="panel-heading">{{ title }} (<code>วัน:{{ unit }}</code>)</div>
+            <div class="panel-heading">{{ title }} (<code>{{'chart.time.unit_day' | translate}}:{{ unit }}</code>)</div>
             <div class="panel-body">
                 <canvas id="line" class="chart chart-line chart-xl" data="line.data" labels="line.labels" colours="line.colours" click="line.onClick"></canvas>
             </div>

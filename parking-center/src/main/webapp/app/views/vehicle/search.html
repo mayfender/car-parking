@@ -1,7 +1,7 @@
 <div>
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">Vehicle Info.</h1>
+			<h1 class="page-header">{{'search.header_title' | translate}}</h1>
 		</div>
 	</div>
 	
@@ -9,18 +9,18 @@
         <div class="col-lg-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <i class="fa fa-search fa-fw"></i> Vehicle Search
+                    <i class="fa fa-search fa-fw"></i> {{'search.header_panel' | translate}}
                 </div>
                 <div class="panel-body">
                 	
                 	<div class="col-lg-4 col-lg-offset-4 vehicle-search-form-border">
 						<form name="vehicleSearchForm" role="vehicleSearchForm" ng-submit="search()">
 							<div class="form-group">
-								<label class="control-label">License No. </label>
+								<label class="control-label">{{'search.license_no' | translate}} </label>
 								<input name="licenseNo" class="form-control" ng-model="formData.licenseNo">
 							</div>
 							<div class="form-group">
-								<label class="control-label">Start Date</label>
+								<label class="control-label">{{'search.start_date' | translate}}</label>
 								<div class="row">
 									<div class="col-sm-11 input-group">
 										<input type="text" readonly="readonly" class="form-control" datepicker-popup="{{format}}"
@@ -35,7 +35,7 @@
 							</div>
 							
 							<div class="form-group">
-								<label class="control-label">End Date</label>
+								<label class="control-label">{{'search.end_date' | translate}}</label>
 								<div class="row">
 									<div class="col-sm-11 input-group">
 										<input type="text" readonly="readonly" class="form-control" datepicker-popup="{{format}}"
@@ -49,32 +49,36 @@
 								</div>
 							</div>
 							<div class="form-group">
-				                 <label class="control-label">Status &nbsp;&nbsp;</label>
+				                 <label class="control-label">{{'search.status' | translate}} &nbsp;&nbsp;</label>
 				                 <label class="radio-inline">
-				                     <input type="radio" name="userStatus" value="0" ng-model="formData.status">In parking
+				                     <input type="radio" name="userStatus" value="0" ng-model="formData.status">{{'search.status.in' | translate}}
 				                 </label>
 				                 <label class="radio-inline">
-				                     <input type="radio" name="userStatus" value="1" ng-model="formData.status">Out parking
+				                     <input type="radio" name="userStatus" value="1" ng-model="formData.status">{{'search.status.out' | translate}}
 				                 </label>
 				             </div>
 							
 							<div style="text-align: center;">
-								<button type="button" class="btn btn-outline btn-primary btn-lg" ng-click="clear()">Clear</button>
-								<button type="submit" class="btn btn-outline btn-primary btn-lg">Search</button>
+								<button type="button" class="btn btn-outline btn-primary btn-lg" ng-click="clear()">{{'search.clear_btn' | translate}}</button>
+								<button type="submit" class="btn btn-outline btn-primary btn-lg">{{'search.searhc_btn' | translate}}</button>
 							</div>
 						</form>
 					</div>
 					<div class="row col-lg-12">
 						<div class="form-group input-group well well-sm" style="padding-top: 3px; padding-bottom: 3px;">
 							<span class="input-group-addon" style="border: 0px; background: none;">
-								page: {{formData.currentPage}} of {{numPages}} (total {{ totalItems }} items)
+								{{'pagination.page' | translate}}: {{formData.currentPage}} {{'pagination.of' | translate}} {{numPages}} ({{'pagination.total' | translate}} {{ totalItems }} {{'pagination.items' | translate}})
 							</span>
-							<pagination ng-change="pageChanged()" total-items="totalItems"
+							<pagination ng-change="pageChanged()" total-items="totalItems" 
+										first-text="{{'pagination.first' | translate}}"
+										previous-text="{{'pagination.previous' | translate}}"
+										next-text="{{'pagination.next' | translate}}"
+										last-text="{{'pagination.last' | translate}}"
 										ng-model="formData.currentPage" items-per-page="itemsPerPage"
 										max-size="maxSize" class="pagination-sm pull-right" boundary-links="true"
 										rotate="false" num-pages="numPages" style="margin: auto;" />
 							<span class="input-group-addon" style="padding: 0px 5px 0px 3px; border: 0px; background: none;">
-								<select ng-options="option for option in [5,10,20,30,40,50,100] track by option" ng-model="itemsPerPage" ng-change="changeItemPerPage()"></select>&nbsp;per page								
+								<select ng-options="option for option in [5,10,20,30,40,50,100] track by option" ng-model="itemsPerPage" ng-change="changeItemPerPage()"></select>&nbsp;{{'pagination.per_page' | translate}}								
 							</span>
 						</div>
 					</div>
@@ -83,14 +87,14 @@
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>License No.</th>
-									<th>In-time</th>
-									<th>Out-time</th>
-									<th>Diff-time</th>
-									<th>Price</th>
-									<th>Device ID</th>
-									<th>Gate Name</th>
-									<th>Status</th>
+									<th>{{'search.table.header.license_no' | translate}}</th>
+									<th>{{'search.table.header.in_time' | translate}}</th>
+									<th>{{'search.table.header.out_time' | translate}}</th>
+									<th>{{'search.table.header.diff_time' | translate}}</th>
+									<th>{{'search.table.header.price' | translate}}</th>
+									<!-- <th>{{'search.table.header.device_id' | translate}}</th>
+									<th>{{'search.table.header.gate_name' | translate}}</th> -->
+									<th>{{'search.table.header.status' | translate}}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -101,8 +105,8 @@
 									<td>{{ v.outDateTime | date : 'dd-MM-yyyy HH:mm:ss'}}</td>
 									<td>{{ timeDiff(v.dateTimeDiffMap) }}</td>
 									<td>{{ v.price == 0 ? '' : v.price + '-' }}</td>
-									<td>{{ v.deviceId }}</td>
-									<td>{{ v.gateName }}</td>
+									<!-- <td>{{ v.deviceId }}</td>
+									<td>{{ v.gateName }}</td> -->
 									<td>
 										<i class="fa fa-arrow-circle-right fa-lg user-status-enabled-icon" ng-show="v.status == 0"></i>
 										<i class="fa fa-arrow-circle-left fa-lg user-status-disabled-icon" ng-show="v.status == 1"></i>

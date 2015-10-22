@@ -1,4 +1,49 @@
 {
-	"login.title": "Please Sign In",
-    "login.login_btn": "Login"
+	"login.title": "Sign In Car-Parking",
+    "login.login_btn": "Login",
+    
+    "search.header_title": "Vehicle Info.",
+    "search.header_panel": "Vehicle Search",
+    "search.license_no": "License No.",
+    "search.start_date": "Start Date",
+    "search.end_date": "End Date",
+    "search.status": "Status",
+    "search.status.in": "In parking",
+    "search.status.out": "Out parking",
+    "search.clear_btn": "Clear",
+    "search.searhc_btn": "Search",
+    
+    "pagination.page": "page",
+    "pagination.of": "of",
+    "pagination.total": "total",
+    "pagination.items": "items",
+    "pagination.per_page": "per page",
+    "pagination.first": "First",
+    "pagination.previous": "Previous",
+    "pagination.next": "Next",
+    "pagination.last": "Last",
+    
+    "search.table.header.license_no": "License No.",
+    "search.table.header.in_time": "In-time",
+    "search.table.header.out_time": "Out-time",
+    "search.table.header.diff_time": "Diff-time",
+    "search.table.header.price": "Price",
+    "search.table.header.device_id": "Device ID",
+    "search.table.header.gate_name": "Gate Name",
+    "search.table.header.status": "Status",
+    
+    "chart.header_title": "Data Graph",
+    "chart.header_panel.vehicle": "Vehicle report",
+    "chart.header_panel.money": "Money report",
+    "chart.dropdown.vehicle": "Vehicle",
+    "chart.dropdown.money": "Money",
+    "chart.time.unit_year": "Year",
+    "chart.time.unit_month": "Month",
+    "chart.time.unit_day": "Day",
+    "chart.unit.vehicle": "Vehicle",
+    "chart.unit.money": "Money"
+    
+    
+    
+    
 }

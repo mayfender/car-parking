@@ -6,7 +6,7 @@
  * # MainCtrl
  * Controller of the sbAdminApp
  */
-angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scope, $timeout, $http, urlPrefix, findAllYears) {
+angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scope, $timeout, $http, $translate, urlPrefix, findAllYears) {
 	
 	Chart.defaults.global.colours = [
 	   '#46BFBD', // green
@@ -18,20 +18,40 @@ angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scop
        '#DCDCDC' // light grey	
     ];
 	
-	var titles = {vehicle: 'สรุปจำนวนรถที่เข้าจอด', money: 'สรุปจำนวนเงินที่ได้รับ'};
-	var units = {vehicle: 'จำนวนคัน', money: 'จำนวนเงิน'};
+	var titles = {};	
+	var units = {};
 	var year = findAllYears.result.years[0];
-	$scope.title = titles.vehicle;
-	$scope.unit = units.vehicle;
-	var labels = {months: {'ม.ค.':'01', 'ก.พ.':'02', 'มี.ค.':'03', 'เม.ย.':'04', 'พ.ค.':'05', 'มิ.ย.':'06', 
-        				   'ก.ค.':'07', 'ส.ค.':'08', 'ก.ย.':'09', 'ต.ค.':'10', 'พ.ย.':'11', 'ธ.ค.':'12'}};
-	
+	var labels;
 	var labelsLineInit = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 
 					      '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', 
 					      '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
 	var dataLineInit = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	           	    	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	           	    	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+	
+	$translate('chart.header_panel.vehicle').then(function (headlineVehicle) {
+		titles.vehicle = headlineVehicle;
+		$scope.title = headlineVehicle;
+	});
+	$translate('chart.header_panel.money').then(function (headlineMoney) {
+		titles.money = headlineMoney;
+	});
+	$translate('chart.unit.vehicle').then(function (unitVehicle) {
+		units.vehicle = unitVehicle;
+		$scope.unit = unitVehicle;
+	});
+	$translate('chart.unit.money').then(function (unitMoney) {
+		units.money = unitMoney;
+	});
+	
+	
+	if($translate.use() == 'en_US') {
+		labels = {months: {'Jan.':'01', 'Feb.':'02', 'Mar.':'03', 'Apr.':'04', 'May.':'05', 'June.':'06', 
+	           			   'July.':'07', 'Aug.':'08', 'Sept.':'09', 'Oct.':'10', 'Nov.':'11', 'Dec.':'12'}};
+	}else if($translate.use() == 'th_TH'){		
+		labels = {months: {'ม.ค.':'01', 'ก.พ.':'02', 'มี.ค.':'03', 'เม.ย.':'04', 'พ.ค.':'05', 'มิ.ย.':'06', 
+				           'ก.ค.':'07', 'ส.ค.':'08', 'ก.ย.':'09', 'ต.ค.':'10', 'พ.ย.':'11', 'ธ.ค.':'12'}};
+	}
 	
 	var keys = [];
 	for(var k in labels.months) keys.push(k);
