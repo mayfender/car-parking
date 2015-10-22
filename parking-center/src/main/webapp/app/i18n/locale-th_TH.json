@@ -41,9 +41,27 @@
     "chart.time.unit_month": "เดือน",
     "chart.time.unit_day": "วัน",
     "chart.unit.vehicle": "จำนวนคัน",
-    "chart.unit.money": "จำนวนเงิน"
+    "chart.unit.money": "จำนวนเงิน",
     
+    "menu.vehicle": "ข้อมูลรถ",
+    "menu.chart": "รายงาน",
+    "menu.user": "ผู้ใช้",
+    "menu.setting": "ตั้งค่า",
+    "menu.profile": "ข้อมูลส่วนตัว",
+    "menu.logout": "ออกจากระบบ",
     
+    "setting.header_title": "ตั้งค่า",
+    "setting.header_panel": "ตั้งค่าระบบ",
+    "setting.unlimited_time": "ไม่กำหนดเวลา",
+    "setting.time_before": "ก่อน",
+    "setting.hour_unit": "/ชม.",
+    "setting.per_time": "/ครั้ง",
+    "setting.price": "ราคา",
+    "setting.time_after": "หลังจากนั้น",
+    "setting.time_calulate": "เวลาเกิน",
+    "setting.time_calulate_to_be": "นาที คิดเป็น 1 ชั่วโมง",
+    "setting.parking_size": "จำนวนรถที่จอดใด้",
+    "setting.update_btn": "แก้ใข"
     
     
 }

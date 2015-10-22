@@ -41,9 +41,27 @@
     "chart.time.unit_month": "Month",
     "chart.time.unit_day": "Day",
     "chart.unit.vehicle": "Vehicle",
-    "chart.unit.money": "Money"
+    "chart.unit.money": "Money",
     
+    "menu.vehicle": "Vehicle",
+    "menu.chart": "Charts Report",
+    "menu.user": "User",
+    "menu.setting": "Setting",
+    "menu.profile": "My Profile",
+    "menu.logout": "Logout",
     
+    "setting.header_title": "Setting",
+    "setting.header_panel": "System Setting",
+    "setting.unlimited_time": "Unlimited Time",
+    "setting.time_before": "Before",
+    "setting.hour_unit": "/hr",
+    "setting.per_time": "/time",
+    "setting.price": "Price",
+    "setting.time_after": "After",
+    "setting.time_calulate": "Time Calculate",
+    "setting.time_calulate_to_be": "Minute to be an hour",
+    "setting.parking_size": "Parking Size",
+    "setting.update_btn": "Update"
     
     
 }
