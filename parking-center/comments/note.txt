@@ -1,2 +1,3 @@
 Outstanding
 - language i18n translation.
+http://bootstrap-datepicker.readthedocs.org/en/latest/i18n.html
