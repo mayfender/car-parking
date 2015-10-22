@@ -82,6 +82,7 @@
     "user.addpage.celar_btn": "ล้าง",
     "user.addpage.update_btn": "แก้ใข",
     "user.addpage.dropdown_role_msg": "--- เลือกสิทธิ ---",
+    "user.addpage.generated_password_msg": "รหัสผ่านคือ",
     
     "profile.header_title": "ข้อมูลส่วนตัว",
     "profile.header_panel": "แก้ใขข้อมูลส่วนตัว",
@@ -89,7 +90,10 @@
     "profile.new_password": "รหัสผ่าน",
     "profile.re_type_new_password": "รหัสผ่านอีกครั้ง",
     "profile.update_btn": "Update",
-    "profile.role": "สิทธิ"
+    "profile.role": "สิทธิ",
     
+    "datepicker.today": "วันนี้",
+    "datepicker.clear": "ล้าง",
+    "datepicker.close": "ปิด"
     
 }

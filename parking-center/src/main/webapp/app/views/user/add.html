@@ -15,7 +15,7 @@
 			<div class="form-group" ng-class="{'has-error':addUserForm.password.$invalid}">
 				<label class="control-label">{{'user.addpage.password' | translate}} *</label>
 				<input name="password" class="form-control" type="password" ng-model="user.password" ng-disabled="isEdit || autoGen" ng-required="!isEdit">
-				<p class="help-block" ng-show="autoGen">Generated Password is {{ user.password }}</p>
+				<p class="help-block" ng-show="autoGen">{{'user.addpage.generated_password_msg' | translate}} {{ user.password }}</p>
 			</div>
 			<div class="form-group" ng-show="!autoGen" ng-class="{'has-error':addUserForm.repassword.$invalid || notMatchRepassErrMsg}">
 				<label class="control-label">{{'user.addpage.re_type_password' | translate}} *</label>

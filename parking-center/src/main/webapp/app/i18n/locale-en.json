@@ -82,6 +82,7 @@
     "user.addpage.celar_btn": "Clear",
     "user.addpage.update_btn": "Update",
     "user.addpage.dropdown_role_msg": "--- Please select role ---",
+    "user.addpage.generated_password_msg": "Generated Password is",
     
     "profile.header_title": "My Profile",
     "profile.header_panel": "Profile Information",
@@ -89,7 +90,10 @@
     "profile.new_password": "New Password",
     "profile.re_type_new_password": "Re-type New Password",
     "profile.update_btn": "Update",
-    "profile.role": "Role"
+    "profile.role": "Role",
     
+    "datepicker.today": "Today",
+    "datepicker.clear": "Clear",
+    "datepicker.close": "Close"
     
 }
