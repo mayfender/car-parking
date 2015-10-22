@@ -61,7 +61,35 @@
     "setting.time_calulate": "เวลาเกิน",
     "setting.time_calulate_to_be": "นาที คิดเป็น 1 ชั่วโมง",
     "setting.parking_size": "จำนวนรถที่จอดใด้",
-    "setting.update_btn": "แก้ใข"
+    "setting.update_btn": "แก้ใข",
+    
+    "user.header_title": "ผู้ใช้",
+    "user.header.panel.user_list": "แสดงผู้ใช้งาน",
+    "user.header.panel.add_user": "เพิ่มผู้ใช้",
+    "user.header.panel.edit_user": "แก้ใขผู้ใช้",
+    "user.table.header.username": "ชื่อผู้ใช้",
+    "user.table.header.role": "สิทธิ์",
+    "user.table.header.status": "สถานะ",
+    "user.addpage.auto_gen": "สร้างอัตโนมัติ",
+    "user.addpage.username": "ชื่อผู้ใช้",
+    "user.addpage.password": "รหัสผ่าน",
+    "user.addpage.re_type_password": "รหัสผ่านอีกครั้ง",
+    "user.addpage.role": "เลือกสิทธิ",
+    "user.addpage.status": "สถานะ",
+    "user.addpage.status.enable": "เปิด",
+    "user.addpage.status.disable": "ปิด",
+    "user.addpage.save_btn": "บันทึก",
+    "user.addpage.celar_btn": "ล้าง",
+    "user.addpage.update_btn": "แก้ใข",
+    "user.addpage.dropdown_role_msg": "--- เลือกสิทธิ ---",
+    
+    "profile.header_title": "ข้อมูลส่วนตัว",
+    "profile.header_panel": "แก้ใขข้อมูลส่วนตัว",
+    "profile.username": "ชื่อผู้ใช้",
+    "profile.new_password": "รหัสผ่าน",
+    "profile.re_type_new_password": "รหัสผ่านอีกครั้ง",
+    "profile.update_btn": "Update",
+    "profile.role": "สิทธิ"
     
     
 }

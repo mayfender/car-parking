@@ -45,10 +45,10 @@ angular.module('sbAdminApp').controller('ChartCtrl', function ($rootScope, $scop
 	});
 	
 	
-	if($translate.use() == 'en_US') {
+	if($translate.use() == 'en') {
 		labels = {months: {'Jan.':'01', 'Feb.':'02', 'Mar.':'03', 'Apr.':'04', 'May.':'05', 'June.':'06', 
 	           			   'July.':'07', 'Aug.':'08', 'Sept.':'09', 'Oct.':'10', 'Nov.':'11', 'Dec.':'12'}};
-	}else if($translate.use() == 'th_TH'){		
+	}else if($translate.use() == 'th'){		
 		labels = {months: {'ม.ค.':'01', 'ก.พ.':'02', 'มี.ค.':'03', 'เม.ย.':'04', 'พ.ค.':'05', 'มิ.ย.':'06', 
 				           'ก.ค.':'07', 'ส.ค.':'08', 'ก.ย.':'09', 'ต.ค.':'10', 'พ.ย.':'11', 'ธ.ค.':'12'}};
 	}

@@ -61,7 +61,35 @@
     "setting.time_calulate": "Time Calculate",
     "setting.time_calulate_to_be": "Minute to be an hour",
     "setting.parking_size": "Parking Size",
-    "setting.update_btn": "Update"
+    "setting.update_btn": "Update",
+    
+    "user.header_title": "User",
+    "user.header.panel.user_list": "User List",
+    "user.header.panel.add_user": "Add User",
+    "user.header.panel.edit_user": "Edit User",
+    "user.table.header.username": "Username",
+    "user.table.header.role": "Role",
+    "user.table.header.status": "Status",
+    "user.addpage.auto_gen": "Auto Generated",
+    "user.addpage.username": "Username",
+    "user.addpage.password": "Password",
+    "user.addpage.re_type_password": "Re-type Password",
+    "user.addpage.role": "Select Role",
+    "user.addpage.status": "Status",
+    "user.addpage.status.enable": "enabled",
+    "user.addpage.status.disable": "disabled",
+    "user.addpage.save_btn": "Save",
+    "user.addpage.celar_btn": "Clear",
+    "user.addpage.update_btn": "Update",
+    "user.addpage.dropdown_role_msg": "--- Please select role ---",
+    
+    "profile.header_title": "My Profile",
+    "profile.header_panel": "Profile Information",
+    "profile.username": "Username",
+    "profile.new_password": "New Password",
+    "profile.re_type_new_password": "Re-type New Password",
+    "profile.update_btn": "Update",
+    "profile.role": "Role"
     
     
 }

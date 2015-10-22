@@ -1,10 +1,13 @@
-angular.module('sbAdminApp').controller('SearchUserCtrl', function($rootScope, $scope, $http, $state, loadUsers, urlPrefix) {	
+angular.module('sbAdminApp').controller('SearchUserCtrl', function($rootScope, $scope, $http, $state, $translate, loadUsers, urlPrefix) {	
 	
 	$scope.$parent.url = 'add';
 	$scope.$parent.iconBtn = 'fa-plus-square';
-	$scope.$parent.headerTitle = 'User List';
 	$scope.data = {};
 	$scope.data.users = loadUsers.users;
+	
+	$translate('user.header.panel.user_list').then(function (userList) {
+		$scope.$parent.headerTitle = userList;
+	});
 	
 	$scope.deleteUser = function(userId) {
 		

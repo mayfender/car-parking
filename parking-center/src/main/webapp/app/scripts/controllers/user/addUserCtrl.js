@@ -1,14 +1,27 @@
-angular.module('sbAdminApp').controller('AddUserCtrl', function($rootScope, $scope, $stateParams, $http, $state, $base64, urlPrefix, toaster) {
+angular.module('sbAdminApp').controller('AddUserCtrl', function($rootScope, $scope, $stateParams, $http, $state, $base64, $translate, urlPrefix, toaster) {
 	
 	$scope.$parent.iconBtn = 'fa-long-arrow-left';
 	$scope.$parent.url = 'search';
 	
 	if($stateParams.user) { //-- Initial edit module
-		$scope.$parent.headerTitle = 'Edit User';
+		$translate('user.header.panel.edit_user').then(function (editUser) {
+			$scope.$parent.headerTitle = editUser;
+		});
+		$translate('user.addpage.update_btn').then(function (updateBtn) {
+			$scope.persisBtn = updateBtn;
+		});
+		
 		$scope.user = $stateParams.user;
 		$scope.isEdit = true;
+		$scope.persisBtn = 'Update';
 	} else {                // Initial for create module
-		$scope.$parent.headerTitle = 'Add User';
+		$translate('user.header.panel.add_user').then(function (addUser) {
+			$scope.$parent.headerTitle = addUser;
+		});
+		$translate('user.addpage.save_btn').then(function (saveBtn) {
+			$scope.persisBtn = saveBtn;
+		});
+		
 		$scope.user = {};
 		$scope.user.roles = [{}];
 		$scope.user.enabled = 1;
