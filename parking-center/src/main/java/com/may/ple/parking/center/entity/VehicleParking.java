@@ -35,7 +35,7 @@ public class VehicleParking implements Serializable {
 	private Date outDateTime;
 	private Integer price;
 	private Integer status;
-	private Integer licenseNo;
+	private String licenseNo;
 	private String deviceId;
 	private String gateName;
 	@Transient
@@ -43,7 +43,7 @@ public class VehicleParking implements Serializable {
 	
 	protected VehicleParking(){}
 
-	public VehicleParking(Date inDateTime, Date outDateTime, Integer price, Integer status, Integer licenseNo, String deviceId, String gateName) {
+	public VehicleParking(Date inDateTime, Date outDateTime, Integer price, Integer status, String licenseNo, String deviceId, String gateName) {
 		this.inDateTime = inDateTime;
 		this.outDateTime = outDateTime;
 		this.price = price;
@@ -106,11 +106,11 @@ public class VehicleParking implements Serializable {
 		this.dateTimeDiffMap = dateTimeDiffMap;
 	}
 
-	public Integer getLicenseNo() {
+	public String getLicenseNo() {
 		return licenseNo;
 	}
 
-	public void setLicenseNo(Integer licenseNo) {
+	public void setLicenseNo(String licenseNo) {
 		this.licenseNo = licenseNo;
 	}
 

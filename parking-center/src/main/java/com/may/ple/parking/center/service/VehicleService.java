@@ -92,7 +92,7 @@ public class VehicleService {
 													rst.getTimestamp("out_date_time"), 
 													rst.getInt("price"), 
 													rst.getInt("status"), 
-													rst.getInt("license_no"), 
+													rst.getString("license_no"), 
 													rst.getString("device_id"), rst.getString("gate_name"));
 				vehicleParking.setId(rst.getLong("id"));
 				
