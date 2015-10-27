@@ -6,7 +6,7 @@ CREATE
 		out_date_time datetime, 
 		price int, 
 		status tinyint DEFAULT '0' NOT NULL, 
-		license_no int NOT NULL, 
+		license_no VARCHAR(4) NOT NULL, 
 		device_id VARCHAR(100),
 		gate_name VARCHAR(100),
 		PRIMARY KEY (id)
