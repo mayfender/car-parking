@@ -239,7 +239,7 @@ public class ReportService {
 			StringBuilder sqlSub = new StringBuilder();
 			
 			for (int i = 0; i < size; i++) {					
-				sqlSub.append(" select in_date_time ");
+				sqlSub.append(" select price, in_date_time ");
 				sqlSub.append(" from " + tables.get(i) + " ");
 				
 				if(i < (size - 1)) {
@@ -396,7 +396,7 @@ public class ReportService {
 			StringBuilder sqlSub = new StringBuilder();
 			
 			for (int i = 0; i < size; i++) {					
-				sqlSub.append(" select in_date_time ");
+				sqlSub.append(" select price, in_date_time ");
 				sqlSub.append(" from " + tables.get(i) + " ");
 				
 				if(i < (size - 1)) {

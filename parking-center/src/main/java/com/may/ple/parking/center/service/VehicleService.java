@@ -78,7 +78,7 @@ public class VehicleService {
 			//-----------------: Get size
 			try {				
 				StringBuilder sqlCount = new StringBuilder();
-				sqlCount.append("select count(*) as size from ( " + sql.toString()+ " ) sub");
+				sqlCount.append("select count(id) as size from ( " + sql.toString()+ " ) sub");
 				pstmt = conn.prepareStatement(sqlCount.toString());
 				rst = pstmt.executeQuery();
 				if(rst.next()) {
