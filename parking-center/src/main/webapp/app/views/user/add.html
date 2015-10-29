@@ -1,7 +1,8 @@
 <div>
 	<div class="col-lg-6">
 		<form name="addUserForm" role="addUserForm" ng-submit="isEdit ? update() : save()" novalidate>
-			<div class="form-inline" ng-hide="isEdit">
+			<!-- <div class="form-inline" ng-hide="isEdit"> -->
+			<div class="form-inline" ng-hide="true">
 				<label>{{'user.addpage.auto_gen' | translate}}</label>
 				<input type="checkbox" value="" ng-model="autoGen" ng-change="autoGenEvent()">
 			</div>
