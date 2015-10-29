@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -26,8 +25,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class VehicleParking implements Serializable {
 	private static final long serialVersionUID = -5313864241529415022L;
 	@Id
-	@TableGenerator(name="vehicleParkingId", pkColumnValue="vehicle_parking.id", initialValue = 1, allocationSize = 1)
-	@GeneratedValue(strategy=GenerationType.TABLE, generator="vehicleParkingId")
+//	@TableGenerator(name="vehicleParkingId", pkColumnValue="vehicle_parking.id", initialValue = 1, allocationSize = 1)
+//	@GeneratedValue(strategy=GenerationType.TABLE, generator="vehicleParkingId")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date inDateTime;
