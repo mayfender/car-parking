@@ -7,7 +7,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Component;
 
 import com.may.ple.parking.center.criteria.VehicleSaveCriteriaReq;
@@ -33,7 +32,6 @@ public class VehicleAction {
 	@POST
 	@Path("/findVehicleParking")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Secured("ROLE_ADMIN")
 	public VehicleSearchCriteriaResp findVehicleParking(VehicleSearchCriteriaReq req) {
 		VehicleSearchCriteriaResp resp;
 		LOG.debug("Start");
@@ -57,7 +55,6 @@ public class VehicleAction {
 	@POST
 	@Path("/saveVehicleParking")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Secured("ROLE_ADMIN")
 	public VehicleSaveCriteriaResp saveVehicleParking(VehicleSaveCriteriaReq req) {
 		VehicleSaveCriteriaResp resp = new VehicleSaveCriteriaResp();
 		LOG.debug("Start");
