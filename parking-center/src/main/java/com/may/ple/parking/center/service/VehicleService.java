@@ -3,8 +3,9 @@ package com.may.ple.parking.center.service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -18,18 +19,17 @@ import com.may.ple.parking.center.criteria.VehicleSaveCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleSearchCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleSearchCriteriaResp;
 import com.may.ple.parking.center.entity.VehicleParking;
-import com.may.ple.parking.center.repository.VehicleParkingRepository;
+import com.may.ple.parking.center.util.DatabaseUtil;
 import com.may.ple.parking.center.util.DateTimeUtil;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 
 @Service
 public class VehicleService {
 	private static final Logger LOG = Logger.getLogger(VehicleService.class.getName());
-	private VehicleParkingRepository vehicleParkingRepository;
 	private DataSource dataSource;
 	
 	@Autowired
-	public VehicleService(VehicleParkingRepository vehicleParkingRepository, DataSource dataSource) {
-		this.vehicleParkingRepository = vehicleParkingRepository;
+	public VehicleService(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 	
@@ -40,25 +40,40 @@ public class VehicleService {
 		ResultSet rst = null;
 		
 		try {
-			StringBuilder sql = new StringBuilder();
-			sql.append(" select id, in_date_time, out_date_time, price, status, license_no, device_id, gate_name ");
-			sql.append(" from vehicle_parking where 1=1 ");
+			conn = dataSource.getConnection();
 			
-			if(req != null) {
-				if(req.getLicenseNo() != null) {
-					sql.append(" and license_no like '%" + req.getLicenseNo() + "%' ");
+			List<String> tables = DatabaseUtil.getVehicleParkingTable(conn);
+			if(tables == null || tables.isEmpty()) {
+				LOG.debug("Not found vehicle_parking_xxx table");
+				return resp;
+			}
+			
+			int size = tables.size();
+			StringBuilder sql = new StringBuilder();
+			
+			for (int i = 0; i < size; i++) {			
+				sql.append(" select id, in_date_time, out_date_time, price, status, license_no, device_id, gate_name ");
+				sql.append(" from " + tables.get(i) + " where 1=1 ");
+				
+				if(req != null) {
+					if(req.getLicenseNo() != null) {
+						sql.append(" and license_no like '%" + req.getLicenseNo() + "%' ");
+					}
+					if(!StringUtils.isBlank(req.getStartDate())) {
+						sql.append(" and in_date_time >= STR_TO_DATE('" + req.getStartDate() + " 00:00:00','%d-%m-%Y %H:%i:%s') ");
+					}
+					if(!StringUtils.isBlank(req.getEndDate())) {
+						sql.append(" and in_date_time <= STR_TO_DATE('" + req.getEndDate() + " 23:59:59','%d-%m-%Y %H:%i:%s') ");
+					}
+					if(req.getStatus() != null) {
+						sql.append(" and status = " + req.getStatus());
+					}
 				}
-				if(!StringUtils.isBlank(req.getStartDate())) {
-					sql.append(" and in_date_time >= STR_TO_DATE('" + req.getStartDate() + " 00:00:00','%d-%m-%Y %H:%i:%s') ");
-				}
-				if(!StringUtils.isBlank(req.getEndDate())) {
-					sql.append(" and in_date_time <= STR_TO_DATE('" + req.getEndDate() + " 23:59:59','%d-%m-%Y %H:%i:%s') ");
-				}
-				if(req.getStatus() != null) {
-					sql.append(" and status = " + req.getStatus());
+				
+				if(i < (size - 1)) {
+					sql.append(" union all ");
 				}
 			}
-			conn = dataSource.getConnection();
 			
 			//-----------------: Get size
 			try {				
@@ -115,13 +130,42 @@ public class VehicleService {
 		}
 	}
 	
-	public void saveVehicleParking(VehicleSaveCriteriaReq req) {
-		try {
-			VehicleParking vehicleParking = new VehicleParking(new Date(), null, null, 0, req.getLicenseNo(), req.getDeviceId(), req.getGateName());
-			vehicleParkingRepository.save(vehicleParking);
+	public void saveVehicleParking(VehicleSaveCriteriaReq req) throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		Calendar calendar = Calendar.getInstance();
+		int year = calendar.get(Calendar.YEAR);
+		
+		try {			
+			StringBuilder sql = new StringBuilder();
+			sql.append(" insert into vehicle_parking_" + year + " (in_date_time, license_no, device_id, gate_name) ");
+			sql.append(" value(?, ?, ?, ?) ");
+			
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setTimestamp(1, new Timestamp(calendar.getTimeInMillis()));
+			pstmt.setString(2, req.getLicenseNo());
+			pstmt.setString(3, req.getDeviceId());
+			pstmt.setString(4, req.getGateName());
+			pstmt.execute();
+		} catch (MySQLSyntaxErrorException e) {
+			try {
+				if(e.getSQLState() != null || e.getSQLState().equals("42S02")) {
+					LOG.debug("Don't have the TABLE of year: "+year);
+					DatabaseUtil.createVehicleParkingTable(conn, year);
+					LOG.debug("Re save again");
+					saveVehicleParking(req);
+				}
+			} catch (Exception e2) {
+				LOG.error(e.toString());
+				throw e2;
+			}
 		} catch (Exception e) {
 			LOG.error(e.toString());
 			throw e;
+		} finally {
+			try { if(pstmt != null) pstmt.close(); } catch (Exception e2) {}
+			try { if(conn != null) conn.close(); } catch (Exception e2) {}
 		}
 	}
 	

@@ -15,6 +15,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.may.ple.parking.center.util.DatabaseUtil;
+
 @Service
 public class ReportService {
 	private static final Logger LOG = Logger.getLogger(ReportService.class.getName());
@@ -32,13 +34,33 @@ public class ReportService {
 		Map<String, List<String>> result = new HashMap<String, List<String>>();
 		
 		try {
+			conn = dataSource.getConnection();
+			
+			List<String> tables = DatabaseUtil.getVehicleParkingTable(conn);
+			if(tables == null || tables.isEmpty()) {
+				LOG.debug("Not found vehicle_parking_xxx table");
+				result.put("years", null);
+				result.put("values", null);
+				return result;
+			}
+			
+			int size = tables.size();
+			StringBuilder sqlSub = new StringBuilder();
+			
+			for (int i = 0; i < size; i++) {	
+				sqlSub.append(" select id, in_date_time ");
+				sqlSub.append(" from " + tables.get(i) + " ");
+				
+				if(i < (size - 1)) {
+					sqlSub.append(" union all ");
+				}
+			}
 			StringBuilder sql = new StringBuilder();
 			sql.append(" select count(id) as num, year(in_date_time) as year ");
-			sql.append(" from vehicle_parking ");
+			sql.append(" from ( " + sqlSub + " ) sub ");
 			sql.append(" group by year(in_date_time) ");
 			sql.append(" order by in_date_time asc ");
 			
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql.toString());
 			rst = pstmt.executeQuery();
 			List<String> years = new ArrayList<String>();
@@ -70,14 +92,33 @@ public class ReportService {
 		Map<String, List<String>> result = new HashMap<String, List<String>>();
 		
 		try {
-			StringBuilder sql = new StringBuilder();
+			conn = dataSource.getConnection();
 			
+			List<String> tables = DatabaseUtil.getVehicleParkingTable(conn);
+			if(tables == null || tables.isEmpty()) {
+				LOG.debug("Not found vehicle_parking_xxx table");
+				result.put("years", null);
+				result.put("values", null);
+				return result;
+			}
+			
+			int size = tables.size();
+			StringBuilder sqlSub = new StringBuilder();
+			
+			for (int i = 0; i < size; i++) {					
+				sqlSub.append(" select price, in_date_time ");
+				sqlSub.append(" from " + tables.get(i) + " ");
+				
+				if(i < (size - 1)) {
+					sqlSub.append(" union all ");
+				}
+			}
+			StringBuilder sql = new StringBuilder();
 			sql.append(" select sum(price) as price, year(in_date_time) as year ");
-			sql.append(" from vehicle_parking ");
+			sql.append(" from ( " + sqlSub + " ) sub ");
 			sql.append(" group by year(in_date_time) ");
 			sql.append(" order by in_date_time asc ");
 			
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql.toString());
 			rst = pstmt.executeQuery();
 			List<String> years = new ArrayList<String>();
@@ -109,6 +150,27 @@ public class ReportService {
 		Map<String, List<String>> result = new HashMap<String, List<String>>();
 		
 		try {
+			conn = dataSource.getConnection();
+			
+			List<String> tables = DatabaseUtil.getVehicleParkingTable(conn);
+			if(tables == null || tables.isEmpty()) {
+				LOG.debug("Not found vehicle_parking_xxx table");
+				result.put("values", null);
+				return result;
+			}
+			
+			int size = tables.size();
+			StringBuilder sqlSub = new StringBuilder();
+			
+			for (int i = 0; i < size; i++) {					
+				sqlSub.append(" select in_date_time ");
+				sqlSub.append(" from " + tables.get(i) + " ");
+				
+				if(i < (size - 1)) {
+					sqlSub.append(" union all ");
+				}
+			}
+			
 			StringBuilder sql = new StringBuilder();
 			sql.append(" select sum(month(in_date_time) = 01) as jan, ");
 			sql.append(" sum(month(in_date_time) = 02) as feb, ");
@@ -122,10 +184,9 @@ public class ReportService {
 			sql.append(" sum(month(in_date_time) = 10) as oct, ");
 			sql.append(" sum(month(in_date_time) = 11) as nov, ");
 			sql.append(" sum(month(in_date_time) = 12) as decem ");
-			sql.append(" from vehicle_parking ");
+			sql.append(" from ( " + sqlSub + " ) sub");
 			sql.append(" where year(in_date_time) = ? ");
 			
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, year);
 			rst = pstmt.executeQuery();
@@ -165,6 +226,27 @@ public class ReportService {
 		Map<String, List<String>> result = new HashMap<String, List<String>>();
 		
 		try {
+			conn = dataSource.getConnection();
+			
+			List<String> tables = DatabaseUtil.getVehicleParkingTable(conn);
+			if(tables == null || tables.isEmpty()) {
+				LOG.debug("Not found vehicle_parking_xxx table");
+				result.put("values", null);
+				return result;
+			}
+			
+			int size = tables.size();
+			StringBuilder sqlSub = new StringBuilder();
+			
+			for (int i = 0; i < size; i++) {					
+				sqlSub.append(" select in_date_time ");
+				sqlSub.append(" from " + tables.get(i) + " ");
+				
+				if(i < (size - 1)) {
+					sqlSub.append(" union all ");
+				}
+			}
+			
 			StringBuilder sql = new StringBuilder();			
 			sql.append(" select sum(case when month(in_date_time) = 01 THEN price ELSE 0 END) as jan, ");
 			sql.append(" sum(case when month(in_date_time) = 02 THEN price ELSE 0 END) as feb, ");
@@ -178,10 +260,9 @@ public class ReportService {
 			sql.append(" sum(case when month(in_date_time) = 10 THEN price ELSE 0 END) as oct, ");
 			sql.append(" sum(case when month(in_date_time) = 11 THEN price ELSE 0 END) as nov, ");
 			sql.append(" sum(case when month(in_date_time) = 12 THEN price ELSE 0 END) as decem ");
-			sql.append(" from vehicle_parking ");
+			sql.append(" from ( " + sqlSub + ") sub ");
 			sql.append(" where year(in_date_time) = ? ");
-			
-			conn = dataSource.getConnection();
+						
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, year);
 			rst = pstmt.executeQuery();
@@ -212,6 +293,27 @@ public class ReportService {
 		Map<String, List<String>> result = new HashMap<String, List<String>>();
 		
 		try {
+			conn = dataSource.getConnection();
+			
+			List<String> tables = DatabaseUtil.getVehicleParkingTable(conn);
+			if(tables == null || tables.isEmpty()) {
+				LOG.debug("Not found vehicle_parking_xxx table");
+				result.put("values", null);
+				return result;
+			}
+			
+			int size = tables.size();
+			StringBuilder sqlSub = new StringBuilder();
+			
+			for (int i = 0; i < size; i++) {					
+				sqlSub.append(" select in_date_time ");
+				sqlSub.append(" from " + tables.get(i) + " ");
+				
+				if(i < (size - 1)) {
+					sqlSub.append(" union all ");
+				}
+			}
+			
 			StringBuilder sql = new StringBuilder();
 			sql.append(" select sum(day(in_date_time) = 01) as i, ");
 			sql.append(" sum(day(in_date_time) = 02) as ii, ");
@@ -244,10 +346,9 @@ public class ReportService {
 			sql.append(" sum(day(in_date_time) = 29) as xxix, ");
 			sql.append(" sum(day(in_date_time) = 30) as xxx, ");
 			sql.append(" sum(day(in_date_time) = 31) as xxxi ");
-			sql.append(" from vehicle_parking ");
+			sql.append(" from (" + sqlSub + ") sub ");
 			sql.append(" where year(in_date_time) = ? and month(in_date_time) = ? ");
 			
-			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, year);
 			pstmt.setString(2, month);
@@ -282,6 +383,27 @@ public class ReportService {
 		Map<String, List<String>> result = new HashMap<String, List<String>>();
 		
 		try {
+			conn = dataSource.getConnection();
+			
+			List<String> tables = DatabaseUtil.getVehicleParkingTable(conn);
+			if(tables == null || tables.isEmpty()) {
+				LOG.debug("Not found vehicle_parking_xxx table");
+				result.put("values", null);
+				return result;
+			}
+			
+			int size = tables.size();
+			StringBuilder sqlSub = new StringBuilder();
+			
+			for (int i = 0; i < size; i++) {					
+				sqlSub.append(" select in_date_time ");
+				sqlSub.append(" from " + tables.get(i) + " ");
+				
+				if(i < (size - 1)) {
+					sqlSub.append(" union all ");
+				}
+			}
+			
 			StringBuilder sql = new StringBuilder();			
 			sql.append(" select sum(case when day(in_date_time) = 01 THEN price ELSE 0 END) as i, ");
 			sql.append(" sum(case when day(in_date_time) = 02 THEN price ELSE 0 END) as ii, ");
@@ -314,10 +436,10 @@ public class ReportService {
 			sql.append(" sum(case when day(in_date_time) = 29 THEN price ELSE 0 END) as xxix, ");
 			sql.append(" sum(case when day(in_date_time) = 30 THEN price ELSE 0 END) as xxx, ");
 			sql.append(" sum(case when day(in_date_time) = 31 THEN price ELSE 0 END) as xxxi ");
-			sql.append(" from vehicle_parking ");
+			sql.append(" from ( " + sqlSub + " ) sub ");
 			sql.append(" where year(in_date_time) = ? and month(in_date_time) = ? ");
 			
-			conn = dataSource.getConnection();
+			
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, year);
 			pstmt.setString(2, month);
