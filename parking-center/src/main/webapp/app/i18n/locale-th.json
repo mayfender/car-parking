@@ -60,8 +60,14 @@
     "setting.time_after": "หลังจากนั้น",
     "setting.time_calulate": "เวลาเกิน",
     "setting.time_calulate_to_be": "นาที คิดเป็น 1 ชั่วโมง",
-    "setting.parking_size": "จำนวนรถที่จอดใด้",
+    "setting.parking_size": "จอดใด้",
     "setting.update_btn": "แก้ใข",
+    "setting.legend.how_price": "อัตราค่าบริการ",
+    "setting.legend.time_calulate": "การคำนวณเวลา",
+    "setting.legend.parking_size": "จำนวนรถที่จอดใด้",
+    
+    
+    
     
     "user.header_title": "ผู้ใช้",
     "user.header.panel.user_list": "แสดงผู้ใช้งาน",

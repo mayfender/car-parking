@@ -62,6 +62,9 @@
     "setting.time_calulate_to_be": "Minute to be an hour",
     "setting.parking_size": "Parking Size",
     "setting.update_btn": "Update",
+    "setting.legend.how_price": "Price",
+    "setting.legend.time_calulate": "Time",
+    "setting.legend.parking_size": "Size",
     
     "user.header_title": "User",
     "user.header.panel.user_list": "User List",
