@@ -19,9 +19,9 @@
 								<input type="checkbox" ng-model="unlimtedTime" ng-change="unlimtedTimeChange()" ng-disabled="settingForm.$invalid">
 	                		</div>
                 		</div>
-                		<div class="well well-sm">
+                		<div class="well well-sm" ng-show="unlimtedTime">
 							<h4>{{'setting.legend.how_price' | translate}}</h4>
-	                		<div class="form-group input-group" ng-show="unlimtedTime" ng-class="{'has-error':settingForm.pricePerTime.$invalid}">
+	                		<div class="form-group input-group" ng-class="{'has-error':settingForm.pricePerTime.$invalid}">
 	                                <span class="input-group-addon">{{'setting.price' | translate}}</span>
 	                                <input type="number" name="pricePerTime" class="form-control" ng-model="pricePerTime" required>
 	                                <span class="input-group-addon">{{'setting.per_time' | translate}}</span>
