@@ -1,2 +1,3 @@
 -----------------: Outstanding :-----------------
-
+-Run-Jar command
+	java -cp "parking-center-1.0-SNAPSHOT.jar;dependency/*" com.may.ple.parking.center.App
