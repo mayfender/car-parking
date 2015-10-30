@@ -19,14 +19,17 @@
 								<input type="checkbox" ng-model="unlimtedTime" ng-change="unlimtedTimeChange()" ng-disabled="settingForm.$invalid">
 	                		</div>
                 		</div>
-                		<div class="form-group input-group" ng-show="unlimtedTime" ng-class="{'has-error':settingForm.pricePerTime.$invalid}">
-                                <span class="input-group-addon">{{'setting.price' | translate}}</span>
-                                <input type="number" name="pricePerTime" class="form-control" ng-model="pricePerTime" required>
-                                <span class="input-group-addon">{{'setting.per_time' | translate}}</span>
-						</div>	
+                		<div class="well well-sm">
+							<h4>{{'setting.legend.how_price' | translate}}</h4>
+	                		<div class="form-group input-group" ng-show="unlimtedTime" ng-class="{'has-error':settingForm.pricePerTime.$invalid}">
+	                                <span class="input-group-addon">{{'setting.price' | translate}}</span>
+	                                <input type="number" name="pricePerTime" class="form-control" ng-model="pricePerTime" required>
+	                                <span class="input-group-addon">{{'setting.per_time' | translate}}</span>
+							</div>	
+						</div>
 						<div ng-hide="unlimtedTime">
-							<fieldset>
-								<legend>{{'setting.legend.how_price' | translate}}</legend>
+							<div class="well well-sm">
+								<h4>{{'setting.legend.how_price' | translate}}</h4>
 								<div class="form-group input-group">
 									<span class="input-group-addon">{{'setting.time_before' | translate}}</span>
 									<select class="form-control" ng-options="option for option in [1,2,3,4,5,6,7,8,9,10] track by option" ng-model="beforeHour"></select>
@@ -42,24 +45,24 @@
 		                               <input type="number" name="afterPriceRate" class="form-control" ng-model="afterPriceRate" required>
 		                               <span class="input-group-addon">{{'setting.hour_unit' | translate}}</span>
 								</div>
-							</fieldset>
-							<fieldset>
-								<legend>{{'setting.legend.time_calulate' | translate}}</legend>
+							</div>
+							<div class="well well-sm">
+								<h4>{{'setting.legend.time_calulate' | translate}}</h4>
 								<div class="form-group input-group">
 									<span class="input-group-addon">{{'setting.time_calulate' | translate}}&nbsp;&nbsp;</span>
 									<select class="form-control" ng-options="option for option in [1,15,30,45] track by option" ng-model="minuteToHour"></select>
 									<span class="input-group-addon">{{'setting.time_calulate_to_be' | translate}}</span>
 								</div>
-							</fieldset>
+							</div>
 						</div>
-						<fieldset>
-							<legend>{{'setting.legend.parking_size' | translate}}</legend>
+						<div class="well well-sm">
+							<h4>{{'setting.legend.parking_size' | translate}}</h4>							
 							<div class="form-group input-group" ng-class="{'has-error':settingForm.parkingSize.$invalid}">
 	                                <span class="input-group-addon">{{'setting.parking_size' | translate}}</span>
 	                                <input type="number" name="parkingSize" class="form-control" ng-model="parkingSize" required>
 	                                <span class="input-group-addon"><i class="fa fa-car fa-fw"></i></span>
 							</div>						
-						</fieldset>
+						</div>
 						
 						<div style="text-align: center;">
 							<button type="submit" class="btn btn-outline btn-primary btn-lg" ng-disabled="settingForm.$invalid">{{'setting.update_btn' | translate}}</button>
