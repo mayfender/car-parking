@@ -139,14 +139,13 @@ public class VehicleService {
 		try {			
 			StringBuilder sql = new StringBuilder();
 			sql.append(" insert into vehicle_parking_" + year + " (in_date_time, license_no, device_id, gate_name) ");
-			sql.append(" value(?, ?, ?, ?) ");
+			sql.append(" value(NOW(), ?, ?, ?) ");
 			
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql.toString());
-			pstmt.setTimestamp(1, new Timestamp(calendar.getTimeInMillis()));
-			pstmt.setString(2, req.getLicenseNo());
-			pstmt.setString(3, req.getDeviceId());
-			pstmt.setString(4, req.getGateName());
+			pstmt.setString(1, req.getLicenseNo());
+			pstmt.setString(2, req.getDeviceId());
+			pstmt.setString(3, req.getGateName());
 			pstmt.execute();
 		} catch (MySQLSyntaxErrorException e) {
 			try {
