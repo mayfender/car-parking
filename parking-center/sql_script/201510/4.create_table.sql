@@ -1,7 +1,7 @@
 CREATE 
 	TABLE vehicle_parking 
 	( 
-		id int NOT NULL AUTO_INCREMENT, 
+		id VARCHAR(12) NOT NULL, 
 		in_date_time datetime, 
 		out_date_time datetime, 
 		price int, 

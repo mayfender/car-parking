@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -132,13 +132,15 @@ public class VehicleService {
 	public void saveVehicleParking(VehicleSaveCriteriaReq req) throws Exception {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		Calendar calendar = Calendar.getInstance();
-		int year = calendar.get(Calendar.YEAR);
+		Date date = new Date();
 		
-		try {			
+		try {
 			StringBuilder sql = new StringBuilder();
-			sql.append(" insert into vehicle_parking_" + year + " (in_date_time, license_no, device_id, gate_name) ");
-			sql.append(" value(NOW(), ?, ?, ?) ");
+			sql.append(" insert into vehicle_parking (id, in_date_time, license_no, device_id, gate_name) ");
+			sql.append(" select CONCAT('01" + String.format("%1$ty%1$tm%1$td", date) + "', LPAD(count(id) + 1, 4, '0')), ");
+			sql.append(" NOW(), ?, ?, ? ");
+			sql.append(" from vehicle_parking ");
+			sql.append(" where date(in_date_time) = '" + String.format("%1$tY-%1$tm-%1$td", date) + "' ");
 			
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql.toString());
@@ -147,7 +149,7 @@ public class VehicleService {
 			pstmt.setString(3, req.getGateName());
 			pstmt.execute();
 		} catch (MySQLSyntaxErrorException e) {
-			try {
+			/*try {
 				if(e.getSQLState() != null || e.getSQLState().equals("42S02")) {
 					LOG.debug("Don't have the TABLE of year: "+year);
 					DatabaseUtil.createVehicleParkingTable(conn, year);
@@ -157,7 +159,10 @@ public class VehicleService {
 			} catch (Exception e2) {
 				LOG.error(e.toString());
 				throw e2;
-			}
+			}*/
+			
+			LOG.error(e.toString());
+			throw e;
 		} catch (Exception e) {
 			LOG.error(e.toString());
 			throw e;

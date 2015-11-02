@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,7 +25,7 @@ public class VehicleParking implements Serializable {
 	@Id
 //	@TableGenerator(name="vehicleParkingId", pkColumnValue="vehicle_parking.id", initialValue = 1, allocationSize = 1)
 //	@GeneratedValue(strategy=GenerationType.TABLE, generator="vehicleParkingId")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+//	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date inDateTime;
