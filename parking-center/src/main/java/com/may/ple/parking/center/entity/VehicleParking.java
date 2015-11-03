@@ -26,7 +26,7 @@ public class VehicleParking implements Serializable {
 //	@TableGenerator(name="vehicleParkingId", pkColumnValue="vehicle_parking.id", initialValue = 1, allocationSize = 1)
 //	@GeneratedValue(strategy=GenerationType.TABLE, generator="vehicleParkingId")
 //	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private String id;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date inDateTime;
 	@Temporal(TemporalType.TIMESTAMP)
@@ -56,11 +56,11 @@ public class VehicleParking implements Serializable {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.DEFAULT_STYLE);
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
