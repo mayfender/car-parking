@@ -33,17 +33,17 @@ public class ConfService {
 			String unlimtedTime = String.valueOf(req.getUnlimtedTime());
 			String parkingSize = String.valueOf(req.getParkingSize());
 			
-			confRepository.findOne("after.pricerate").setConfValue(afterPriceRate);
+			confRepository.findOne("after.price.rate").setConfValue(afterPriceRate);
 			confRepository.findOne("before.hour").setConfValue(beforeHour);
-			confRepository.findOne("before.hour.pricerate").setConfValue(beforeHourPriceRate);
+			confRepository.findOne("before.hour.price.rate").setConfValue(beforeHourPriceRate);
 			confRepository.findOne("minute.to.hour").setConfValue(minuteToHour);
 			confRepository.findOne("price.per.time").setConfValue(pricePerTime);
 			confRepository.findOne("unlimted.time").setConfValue(unlimtedTime);
 			confRepository.findOne("parking.size").setConfValue(parkingSize);
 			
-			dbProp.put("after.pricerate", afterPriceRate);
+			dbProp.put("after.price.rate", afterPriceRate);
 			dbProp.put("before.hour", beforeHour);
-			dbProp.put("before.hour.pricerate", beforeHourPriceRate);
+			dbProp.put("before.hour.price.rate", beforeHourPriceRate);
 			dbProp.put("minute.to.hour", minuteToHour);
 			dbProp.put("price.per.time", pricePerTime);
 			dbProp.put("unlimted.time", unlimtedTime);

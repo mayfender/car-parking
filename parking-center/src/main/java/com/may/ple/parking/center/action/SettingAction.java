@@ -36,9 +36,9 @@ public class SettingAction {
 		LOG.debug("Start");
 		
 		try {
-			resp.setAfterPriceRate(dbProp.getInt("after.pricerate"));
+			resp.setAfterPriceRate(dbProp.getInt("after.price.rate"));
 			resp.setBeforeHour(dbProp.getInt("before.hour"));
-			resp.setBeforeHourPriceRate(dbProp.getInt("before.hour.pricerate"));
+			resp.setBeforeHourPriceRate(dbProp.getInt("before.hour.price.rate"));
 			resp.setMinuteToHour(dbProp.getInt("minute.to.hour"));
 			resp.setPricePerTime(dbProp.getInt("price.per.time"));
 			resp.setUnlimtedTime(dbProp.getBoolean("unlimted.time"));
