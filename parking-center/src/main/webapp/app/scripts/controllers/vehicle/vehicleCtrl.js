@@ -9,7 +9,7 @@ angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $sco
 	$scope.formData = {currentPage : 1};
 	
 	$scope.search = function() {
-		$http.post(urlPrefix + '/restAct/vehicle/findVehicleParking', {
+		$http.post(urlPrefix + '/restAct/vehicle/searchVehicleParking', {
 			licenseNo: $scope.formData.licenseNo,
 			startDate: $filter('date')($scope.formData.dateTimeStart, 'dd-MM-yyyy'),
 			endDate: $filter('date')($scope.formData.dateTimeEnd, 'dd-MM-yyyy'),

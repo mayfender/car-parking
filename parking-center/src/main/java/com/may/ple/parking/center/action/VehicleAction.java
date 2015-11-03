@@ -32,16 +32,16 @@ public class VehicleAction {
 	}
 	
 	@POST
-	@Path("/findVehicleParking")
+	@Path("/searchVehicleParking")
 	@Produces(MediaType.APPLICATION_JSON)
-	public VehicleSearchCriteriaResp findVehicleParking(VehicleSearchCriteriaReq req) {
+	public VehicleSearchCriteriaResp searchVehicleParking(VehicleSearchCriteriaReq req) {
 		VehicleSearchCriteriaResp resp;
 		LOG.debug("Start");
 		
 		try {
 			LOG.debug(req);
 			
-			resp = service.findVehicleParking(req);
+			resp = service.searchVehicleParking(req);
 			
 			LOG.debug(resp);
 		} catch (Exception e) {

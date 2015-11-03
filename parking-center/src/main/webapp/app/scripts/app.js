@@ -98,7 +98,7 @@ angular
             loadVehicles:function($rootScope, $http, $state, $filter, $q, urlPrefix) {
             	var today = $filter('date')(new Date(), 'dd-MM-yyyy');
             	
-            	return $http.post(urlPrefix + '/restAct/vehicle/findVehicleParking', {
+            	return $http.post(urlPrefix + '/restAct/vehicle/searchVehicleParking', {
 		            		startDate: today,
 		            		endDate: today,
             				currentPage: 1, 

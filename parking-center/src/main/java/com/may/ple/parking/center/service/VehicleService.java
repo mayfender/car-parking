@@ -33,7 +33,7 @@ public class VehicleService {
 		this.dataSource = dataSource;
 	}
 	
-	public VehicleSearchCriteriaResp findVehicleParking(VehicleSearchCriteriaReq req) throws Exception {
+	public VehicleSearchCriteriaResp searchVehicleParking(VehicleSearchCriteriaReq req) throws Exception {
 		VehicleSearchCriteriaResp resp = new VehicleSearchCriteriaResp();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
