@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.may.ple.parking.center.criteria.VehicleGetCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleSaveCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleSearchCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleSearchCriteriaResp;
@@ -127,6 +128,10 @@ public class VehicleService {
 			try { if(pstmt != null) pstmt.close(); } catch (Exception e2) {}
 			try { if(conn != null) conn.close(); } catch (Exception e2) {}
 		}
+	}
+	
+	public void findVehicleParking(VehicleGetCriteriaReq req) {
+		
 	}
 	
 	public void saveVehicleParking(VehicleSaveCriteriaReq req) throws Exception {

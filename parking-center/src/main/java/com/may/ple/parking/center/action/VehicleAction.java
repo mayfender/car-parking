@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.may.ple.parking.center.criteria.VehicleGetCriteriaReq;
+import com.may.ple.parking.center.criteria.VehicleGetCriteriaResp;
 import com.may.ple.parking.center.criteria.VehicleSaveCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleSaveCriteriaResp;
 import com.may.ple.parking.center.criteria.VehicleSearchCriteriaReq;
@@ -44,6 +46,29 @@ public class VehicleAction {
 			LOG.debug(resp);
 		} catch (Exception e) {
 			resp = new VehicleSearchCriteriaResp();
+			resp.setStatusCode(1000);
+			LOG.error(e.toString());
+		}
+		
+		LOG.debug("End");
+		return resp;
+	}
+	
+	@POST
+	@Path("/getVehicleParking")
+	@Produces(MediaType.APPLICATION_JSON)
+	public VehicleGetCriteriaResp getVehicleParking(VehicleGetCriteriaReq req) {
+		VehicleGetCriteriaResp resp = new VehicleGetCriteriaResp();
+		LOG.debug("Start");
+		
+		try {
+			LOG.debug(req);
+			
+			service.findVehicleParking(req);
+			resp.id = "010000000000";
+			
+			LOG.debug(resp);
+		} catch (Exception e) {
 			resp.setStatusCode(1000);
 			LOG.error(e.toString());
 		}
