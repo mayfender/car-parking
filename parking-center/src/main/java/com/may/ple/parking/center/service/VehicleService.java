@@ -193,7 +193,7 @@ public class VehicleService {
 			if(req.getId() == null) {
 				LOG.debug("Call findVehicleByLicenseNo");
 				vehicleParking = findVehicleByLicenseNo(conn, req.getLicenseNo());
-				req.setId(vehicleParking.getId());
+				req.setId(vehicleParking != null? vehicleParking.getId() : null);
 			} else {
 				LOG.debug("Call findVehicleById");
 				vehicleParking = findVehicleById(conn, req.getId());
