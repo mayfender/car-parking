@@ -32,7 +32,6 @@ public class VehicleService {
 	private static final Logger LOG = Logger.getLogger(VehicleService.class.getName());
 	private DataSource dataSource;
 	private PropertiesCustom dbProp;
-	private int dateInterval = 30;
 	
 	@Autowired
 	public VehicleService(DataSource dataSource, PropertiesCustom dbProp) {
@@ -301,7 +300,7 @@ public class VehicleService {
 			StringBuilder sql = new StringBuilder();
 			sql.append(" select id, in_date_time, out_date_time, price ");
 			sql.append(" from vehicle_parking ");
-			sql.append(" where status = 0 and in_date_time > date_sub(now(), interval " + dateInterval + " DAY) ");
+			sql.append(" where status = 0 ");
 			sql.append(" and license_no = ? ");
 			sql.append(" order by in_date_time desc ");
 			

@@ -16,6 +16,7 @@ import com.may.ple.parking.center.criteria.VehicleSaveCriteriaResp;
 import com.may.ple.parking.center.criteria.VehicleSearchCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleSearchCriteriaResp;
 import com.may.ple.parking.center.entity.VehicleParking;
+import com.may.ple.parking.center.exception.CustomerException;
 import com.may.ple.parking.center.service.VehicleService;
 
 @Component
@@ -66,6 +67,9 @@ public class VehicleAction {
 			resp.setVehicleParking(vehicleParking);
 			
 			LOG.debug(resp);
+		} catch (CustomerException e) {
+			resp.setStatusCode(e.errCode);			
+			LOG.error(e.toString());
 		} catch (Exception e) {
 			resp.setStatusCode(1000);
 			LOG.error(e.toString());
