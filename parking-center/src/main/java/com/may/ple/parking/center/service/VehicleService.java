@@ -108,7 +108,7 @@ public class VehicleService {
 													rst.getInt("status"), 
 													rst.getString("license_no"), 
 													rst.getString("device_id"), rst.getString("gate_name"));
-				vehicleParking.setId(rst.getLong("id"));
+				vehicleParking.setId(rst.getString("id"));
 				
 				if(vehicleParking.getInDateTime() != null && vehicleParking.getOutDateTime() != null) {					
 					vehicleParking.setDateTimeDiffMap(DateTimeUtil.dateTimeDiff(vehicleParking.getInDateTime(), vehicleParking.getOutDateTime()));					
