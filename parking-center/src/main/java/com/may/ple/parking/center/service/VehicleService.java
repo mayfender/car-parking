@@ -3,6 +3,7 @@ package com.may.ple.parking.center.service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,7 @@ import com.may.ple.parking.center.criteria.VehicleSearchCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleSearchCriteriaResp;
 import com.may.ple.parking.center.custom.PropertiesCustom;
 import com.may.ple.parking.center.entity.VehicleParking;
+import com.may.ple.parking.center.exception.CustomerException;
 import com.may.ple.parking.center.util.DatabaseUtil;
 import com.may.ple.parking.center.util.DateTimeUtil;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
@@ -191,11 +193,12 @@ public class VehicleService {
 			if(req.getId() == null) {
 				LOG.debug("Call findVehicleByLicenseNo");
 				vehicleParking = findVehicleByLicenseNo(conn, req.getLicenseNo());
+				req.setId(vehicleParking.getId());
 			} else {
 				LOG.debug("Call findVehicleById");
 				vehicleParking = findVehicleById(conn, req.getId());
 			}
-			if(vehicleParking == null) throw new Exception("Not found vehicleParking");
+			if(vehicleParking == null) throw new CustomerException(3000, "Not found vehicleParking");
 			
 			vehicleParking.setOutDateTime(new Date());
 			
@@ -242,10 +245,12 @@ public class VehicleService {
 				}
 				
 				long beforeHour = dbProp.getLong("before.hour");
-				if(hours < beforeHour) {
-					price = dbProp.getInt("before.hour.price.rate");
+				if(hours <= beforeHour) {
+					price = new Long(dbProp.getLong("before.hour.price.rate") * hours).intValue();
 				} else {
-					price = dbProp.getInt("after.price.rate");
+					price = new Long(dbProp.getLong("before.hour.price.rate") * beforeHour).intValue();
+					long secondSec = hours - beforeHour;
+					price += dbProp.getInt("after.price.rate") * secondSec;
 				}
 			}
 			
@@ -270,7 +275,7 @@ public class VehicleService {
 			sql.append(" where id = ? ");
 			
 			pstmt = conn.prepareStatement(sql.toString());
-			pstmt.setDate(1, new java.sql.Date(date.getTime())); // out_date_time
+			pstmt.setTimestamp(1, new Timestamp(date.getTime())); // out_date_time
 			pstmt.setInt(2, price); // price
 			pstmt.setString(3, req.getDeviceId()); //device_id
 			pstmt.setString(4, req.getGateName()); // gate_name
@@ -278,7 +283,7 @@ public class VehicleService {
 			
 			int executeUpdate = pstmt.executeUpdate();
 			if(executeUpdate == 0) 
-				throw new Exception("Cann't update");
+				throw new CustomerException(4000, "Cann't update");
 			
 		} catch (Exception e) {
 			LOG.error(e.toString());
