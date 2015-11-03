@@ -9,13 +9,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.may.ple.parking.center.criteria.VehicleGetCriteriaReq;
-import com.may.ple.parking.center.criteria.VehicleGetCriteriaResp;
+import com.may.ple.parking.center.criteria.VehicleCheckOutCriteriaReq;
+import com.may.ple.parking.center.criteria.VehicleCheckOutCriteriaResp;
 import com.may.ple.parking.center.criteria.VehicleSaveCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleSaveCriteriaResp;
 import com.may.ple.parking.center.criteria.VehicleSearchCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleSearchCriteriaResp;
-import com.may.ple.parking.center.custom.PropertiesCustom;
+import com.may.ple.parking.center.entity.VehicleParking;
 import com.may.ple.parking.center.service.VehicleService;
 
 @Component
@@ -23,12 +23,10 @@ import com.may.ple.parking.center.service.VehicleService;
 public class VehicleAction {
 	private static final Logger LOG = Logger.getLogger(VehicleAction.class.getName());
 	private VehicleService service;
-	private PropertiesCustom dbProp;
 	
 	@Autowired
-	public VehicleAction(VehicleService service, PropertiesCustom dbProp) {
+	public VehicleAction(VehicleService service) {
 		this.service = service;
-		this.dbProp = dbProp;
 	}
 	
 	@POST
@@ -55,17 +53,17 @@ public class VehicleAction {
 	}
 	
 	@POST
-	@Path("/getVehicleParking")
+	@Path("/checkOutVehicle")
 	@Produces(MediaType.APPLICATION_JSON)
-	public VehicleGetCriteriaResp getVehicleParking(VehicleGetCriteriaReq req) {
-		VehicleGetCriteriaResp resp = new VehicleGetCriteriaResp();
+	public VehicleCheckOutCriteriaResp checkOutVehicle(VehicleCheckOutCriteriaReq req) {
+		VehicleCheckOutCriteriaResp resp = new VehicleCheckOutCriteriaResp();
 		LOG.debug("Start");
 		
 		try {
 			LOG.debug(req);
 			
-			service.findVehicleParking(req);
-			resp.id = "010000000000";
+			VehicleParking vehicleParking = service.checkOutVehicle(req);
+			resp.setVehicleParking(vehicleParking);
 			
 			LOG.debug(resp);
 		} catch (Exception e) {

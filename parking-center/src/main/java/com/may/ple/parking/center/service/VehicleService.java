@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -14,10 +15,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.may.ple.parking.center.criteria.VehicleGetCriteriaReq;
+import com.may.ple.parking.center.criteria.VehicleCheckOutCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleSaveCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleSearchCriteriaReq;
 import com.may.ple.parking.center.criteria.VehicleSearchCriteriaResp;
+import com.may.ple.parking.center.custom.PropertiesCustom;
 import com.may.ple.parking.center.entity.VehicleParking;
 import com.may.ple.parking.center.util.DatabaseUtil;
 import com.may.ple.parking.center.util.DateTimeUtil;
@@ -27,10 +29,13 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 public class VehicleService {
 	private static final Logger LOG = Logger.getLogger(VehicleService.class.getName());
 	private DataSource dataSource;
+	private PropertiesCustom dbProp;
+	private int dateInterval = 30;
 	
 	@Autowired
-	public VehicleService(DataSource dataSource) {
+	public VehicleService(DataSource dataSource, PropertiesCustom dbProp) {
 		this.dataSource = dataSource;
+		this.dbProp = dbProp;
 	}
 	
 	public VehicleSearchCriteriaResp searchVehicleParking(VehicleSearchCriteriaReq req) throws Exception {
@@ -130,10 +135,6 @@ public class VehicleService {
 		}
 	}
 	
-	public void findVehicleParking(VehicleGetCriteriaReq req) {
-		
-	}
-	
 	public void saveVehicleParking(VehicleSaveCriteriaReq req) throws Exception {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -174,6 +175,188 @@ public class VehicleService {
 		} finally {
 			try { if(pstmt != null) pstmt.close(); } catch (Exception e2) {}
 			try { if(conn != null) conn.close(); } catch (Exception e2) {}
+		}
+	}
+	
+	public VehicleParking checkOutVehicle(VehicleCheckOutCriteriaReq req) throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rst = null;
+		VehicleParking vehicleParking = null;
+		
+		try {
+			conn = dataSource.getConnection();
+			
+			// 1. Find VehicleParking
+			if(req.getId() == null) {
+				LOG.debug("Call findVehicleByLicenseNo");
+				vehicleParking = findVehicleByLicenseNo(conn, req.getLicenseNo());
+			} else {
+				LOG.debug("Call findVehicleById");
+				vehicleParking = findVehicleById(conn, req.getId());
+			}
+			if(vehicleParking == null) throw new Exception("Not found vehicleParking");
+			
+			vehicleParking.setOutDateTime(new Date());
+			
+			Map<String, Long> dateTimeDiff = DateTimeUtil.dateTimeDiff(vehicleParking.getInDateTime(), vehicleParking.getOutDateTime());
+			vehicleParking.setDateTimeDiffMap(dateTimeDiff);
+			
+			// 2. Calculate price
+			LOG.debug("Call calculatePrice");
+			int price = calculatePrice(dateTimeDiff);
+			vehicleParking.setPrice(price);
+			
+			// 3. Update out-time
+			LOG.debug("Call updateVehicleOut");
+			updateVehicleOut(conn, req, price, vehicleParking.getOutDateTime());
+			
+			return vehicleParking;
+		} catch (Exception e) {
+			LOG.error(e.toString());
+			throw e;
+		} finally {
+			try { if(rst != null) rst.close(); } catch (Exception e2) {}
+			try { if(pstmt != null) pstmt.close(); } catch (Exception e2) {}
+			try { if(conn != null) conn.close(); } catch (Exception e2) {}
+		}
+	}
+	
+	private int calculatePrice(Map<String, Long> dateTimeDiff) {
+		try {
+			Boolean unlimtedTime = dbProp.getBoolean("unlimted.time");
+			int price;
+			
+			if(unlimtedTime) {
+				LOG.debug("Unlimited-time mode");
+				price = dbProp.getInt("price.per.time");
+			} else {
+				LOG.debug("Depend on time mode");
+				long hours = dateTimeDiff.get("hours");
+				long minutes = dateTimeDiff.get("minutes");
+				long minuteToHour = dbProp.getLong("minute.to.hour");
+				
+				// If minute since (minute.to.hour) assume to be a hour.
+				if(minutes >= minuteToHour) {
+					hours++;
+				}
+				
+				long beforeHour = dbProp.getLong("before.hour");
+				if(hours < beforeHour) {
+					price = dbProp.getInt("before.hour.price.rate");
+				} else {
+					price = dbProp.getInt("after.price.rate");
+				}
+			}
+			
+			return price;
+		} catch (Exception e) {
+			LOG.error(e.toString());
+			throw e;
+		}
+	}
+	
+	private void updateVehicleOut(Connection conn, VehicleCheckOutCriteriaReq req, int price, Date date) throws Exception {
+		PreparedStatement pstmt = null;
+		
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append(" update vehicle_parking ");
+			sql.append(" set out_date_time = ?, ");
+			sql.append(" price = ?, ");
+			sql.append(" status = 1, ");
+			sql.append(" device_id = ?, ");
+			sql.append(" gate_name = ? ");
+			sql.append(" where id = ? ");
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setDate(1, new java.sql.Date(date.getTime())); // out_date_time
+			pstmt.setInt(2, price); // price
+			pstmt.setString(3, req.getDeviceId()); //device_id
+			pstmt.setString(4, req.getGateName()); // gate_name
+			pstmt.setString(5, req.getId()); // id
+			
+			int executeUpdate = pstmt.executeUpdate();
+			if(executeUpdate == 0) 
+				throw new Exception("Cann't update");
+			
+		} catch (Exception e) {
+			LOG.error(e.toString());
+			throw e;
+		} finally {
+			try { if(pstmt != null) pstmt.close(); } catch (Exception e2) {}
+		}
+	}
+	
+	private VehicleParking findVehicleByLicenseNo(Connection conn, String licenseNo) throws Exception {
+		PreparedStatement pstmt = null;
+		ResultSet rst = null;
+		
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append(" select id, in_date_time, out_date_time, price ");
+			sql.append(" from vehicle_parking ");
+			sql.append(" where status = 0 and in_date_time > date_sub(now(), interval " + dateInterval + " DAY) ");
+			sql.append(" and license_no = ? ");
+			sql.append(" order by in_date_time asc ");
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, licenseNo);
+			rst = pstmt.executeQuery();
+			VehicleParking vehicleParking = null;
+			
+			if(rst.next()) {
+				vehicleParking = new VehicleParking(
+					rst.getTimestamp("in_date_time"), 
+					rst.getTimestamp("out_date_time"), 
+					rst.getInt("price"), 
+					null, null, null, null
+				);
+				vehicleParking.setId(rst.getString("id"));
+			}
+			
+			return vehicleParking;
+		} catch (Exception e) {
+			LOG.error(e.toString());
+			throw e;
+		} finally {
+			try { if(rst != null) rst.close(); } catch (Exception e2) {}
+			try { if(pstmt != null) pstmt.close(); } catch (Exception e2) {}
+		}
+	}
+	
+	private VehicleParking findVehicleById(Connection conn, String id) throws Exception {
+		PreparedStatement pstmt = null;
+		ResultSet rst = null;
+		VehicleParking vehicleParking = null;
+		
+		try {
+			
+			// 4. Query to return data
+			StringBuilder sql = new StringBuilder();
+			sql.append(" select id, in_date_time, out_date_time, price ");
+			sql.append(" from vehicle_parking ");
+			sql.append(" where and id = ? ");
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			rst = pstmt.executeQuery();
+			
+			if(rst.next()) {
+				vehicleParking = new VehicleParking(
+					rst.getTimestamp("in_date_time"), rst.getTimestamp("out_date_time"), 
+					rst.getInt("price"), null, null, null, null
+				);
+				vehicleParking.setId(rst.getString("id"));
+			}
+			
+			return vehicleParking;
+		} catch (Exception e) {
+			LOG.error(e.toString());
+			throw e;
+		} finally {
+			try { if(rst != null) rst.close(); } catch (Exception e2) {}
+			try { if(pstmt != null) pstmt.close(); } catch (Exception e2) {}
 		}
 	}
 	

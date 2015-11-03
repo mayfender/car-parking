@@ -25,9 +25,9 @@ CREATE
     )
     ENGINE=InnoDB DEFAULT CHARSET=utf8;
     
-insert into conf (conf_key, conf_value) values ('after.pricerate', '30');
+insert into conf (conf_key, conf_value) values ('after.price.rate', '30');
 insert into conf (conf_key, conf_value) values ('before.hour', '1');
-insert into conf (conf_key, conf_value) values ('before.hour.pricerate', '10');
+insert into conf (conf_key, conf_value) values ('before.hour.price.rate', '10');
 insert into conf (conf_key, conf_value) values ('minute.to.hour', '1');
 insert into conf (conf_key, conf_value) values ('price.per.time', '20');
 insert into conf (conf_key, conf_value) values ('unlimted.time', 'false');
