@@ -303,7 +303,7 @@ public class VehicleService {
 			sql.append(" from vehicle_parking ");
 			sql.append(" where status = 0 and in_date_time > date_sub(now(), interval " + dateInterval + " DAY) ");
 			sql.append(" and license_no = ? ");
-			sql.append(" order by in_date_time asc ");
+			sql.append(" order by in_date_time desc ");
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, licenseNo);
