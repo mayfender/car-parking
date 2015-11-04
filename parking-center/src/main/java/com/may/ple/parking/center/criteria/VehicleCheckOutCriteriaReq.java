@@ -8,6 +8,7 @@ public class VehicleCheckOutCriteriaReq {
 	private String licenseNo;
 	private String deviceId;
 	private String gateName;
+	private Integer reasonNoScan;
 	
 	@Override
 	public String toString() {
@@ -44,6 +45,14 @@ public class VehicleCheckOutCriteriaReq {
 
 	public void setGateName(String gateName) {
 		this.gateName = gateName;
+	}
+
+	public Integer getReasonNoScan() {
+		return reasonNoScan;
+	}
+
+	public void setReasonNoScan(Integer reasonNoScan) {
+		this.reasonNoScan = reasonNoScan;
 	}
 	
 }

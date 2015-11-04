@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,7 +59,7 @@ public class VehicleService {
 			StringBuilder sql = new StringBuilder();
 			
 			for (int i = 0; i < size; i++) {			
-				sql.append(" select id, in_date_time, out_date_time, price, status, license_no, device_id, gate_name ");
+				sql.append(" select id, in_date_time, out_date_time, price, status, license_no");
 				sql.append(" from " + tables.get(i) + " where 1=1 ");
 				
 				if(req != null) {
@@ -117,8 +118,7 @@ public class VehicleService {
 													rst.getTimestamp("out_date_time"), 
 													price, 
 													rst.getInt("status"), 
-													rst.getString("license_no"), 
-													rst.getString("device_id"), rst.getString("gate_name"));
+													rst.getString("license_no"), null, null);
 				
 				if(vehicleParking.getInDateTime() != null && vehicleParking.getOutDateTime() != null) {					
 					vehicleParking.setDateTimeDiffMap(DateTimeUtil.dateTimeDiff(vehicleParking.getInDateTime(), vehicleParking.getOutDateTime()));					
@@ -146,7 +146,7 @@ public class VehicleService {
 		
 		try {
 			StringBuilder sql = new StringBuilder();
-			sql.append(" insert into vehicle_parking (id, in_date_time, license_no, device_id, gate_name) ");
+			sql.append(" insert into vehicle_parking (id, in_date_time, license_no, checkin_device_id, gate_in_name) ");
 			sql.append(" select CONCAT('01" + String.format("%1$ty%1$tm%1$td", date) + "', LPAD(count(id) + 1, 4, '0')), ");
 			sql.append(" NOW(), ?, ?, ? ");
 			sql.append(" from vehicle_parking ");
@@ -272,8 +272,9 @@ public class VehicleService {
 			sql.append(" set out_date_time = ?, ");
 			sql.append(" price = ?, ");
 			sql.append(" status = 1, ");
-			sql.append(" device_id = ?, ");
-			sql.append(" gate_name = ? ");
+			sql.append(" checkout_device_id = ?, ");
+			sql.append(" gate_out_name = ?, ");
+			sql.append(" reason_no_scan = ? ");
 			sql.append(" where id = ? ");
 			
 			pstmt = conn.prepareStatement(sql.toString());
@@ -281,7 +282,13 @@ public class VehicleService {
 			pstmt.setInt(2, price); // price
 			pstmt.setString(3, req.getDeviceId()); //device_id
 			pstmt.setString(4, req.getGateName()); // gate_name
-			pstmt.setString(5, req.getId()); // id
+			
+			if(req.getReasonNoScan() != null) 
+				pstmt.setInt(5, req.getReasonNoScan()); // reason_no_scan				
+			else 
+				pstmt.setNull(5, Types.INTEGER); // reason_no_scan				
+			
+			pstmt.setString(6, req.getId()); // id
 			
 			int executeUpdate = pstmt.executeUpdate();
 			if(executeUpdate == 0) 

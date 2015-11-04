@@ -7,8 +7,11 @@ CREATE
 		price int, 
 		status tinyint DEFAULT '0' NOT NULL, 
 		license_no VARCHAR(5) NOT NULL, 
-		device_id VARCHAR(100),
-		gate_name VARCHAR(100),
+		checkin_device_id VARCHAR(20),
+		checkout_device_id VARCHAR(20),
+		gate_in_name VARCHAR(100),
+		gate_out_name VARCHAR(100),
+		reason_no_scan tinyint,
 		PRIMARY KEY (id),
 		CONSTRAINT ix1 UNIQUE (in_date_time) 
 	) 
