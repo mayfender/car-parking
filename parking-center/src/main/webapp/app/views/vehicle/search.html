@@ -110,7 +110,7 @@
 									<td>{{ v.inDateTime | date : 'dd-MM-yyyy HH:mm:ss'}}</td>
 									<td>{{ v.outDateTime | date : 'dd-MM-yyyy HH:mm:ss'}}</td>
 									<td>{{ timeDiff(v.dateTimeDiffMap) }}</td>
-									<td>{{ v.price == 0 ? '' : v.price + '-' }}</td>
+									<td>{{ v.price != null ? v.price + '-' : '' }}</td>
 									<!-- <td>{{ v.deviceId }}</td>
 									<td>{{ v.gateName }}</td> -->
 									<td>

@@ -107,15 +107,18 @@ public class VehicleService {
 			rst = pstmt.executeQuery();
 			List<VehicleParking> vehicleParkings = new ArrayList<VehicleParking>();
 			VehicleParking vehicleParking;
+			Integer price;
 			
 			while(rst.next()) {
+				price = rst.getInt("price");
+				price = rst.wasNull() ? null : price;
+				
 				vehicleParking = new VehicleParking(rst.getTimestamp("in_date_time"), 
 													rst.getTimestamp("out_date_time"), 
-													rst.getInt("price"), 
+													price, 
 													rst.getInt("status"), 
 													rst.getString("license_no"), 
 													rst.getString("device_id"), rst.getString("gate_name"));
-//				vehicleParking.setId(rst.getString("id"));
 				
 				if(vehicleParking.getInDateTime() != null && vehicleParking.getOutDateTime() != null) {					
 					vehicleParking.setDateTimeDiffMap(DateTimeUtil.dateTimeDiff(vehicleParking.getInDateTime(), vehicleParking.getOutDateTime()));					
