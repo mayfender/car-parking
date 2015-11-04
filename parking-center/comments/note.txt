@@ -4,13 +4,7 @@
 2000 => User existing
 3000 => Not found data
 4000 => Cann't update
+
 -----------------: Outstanding :-----------------
--Run-Jar command
+-- Run-Jar command
 	java -cp "parking-center-1.0-SNAPSHOT.jar;dependency/*" com.may.ple.parking.center.App
-	
--Ticket ID 13
-0115101100306	
-01 => ticket-type
-15 => year
-10 => month
-11 => day
