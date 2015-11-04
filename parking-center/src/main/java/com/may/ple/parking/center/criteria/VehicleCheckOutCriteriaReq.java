@@ -4,7 +4,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class VehicleCheckOutCriteriaReq {
-	private String id;
+	private Long id;
 	private String licenseNo;
 	private String deviceId;
 	private String gateName;
@@ -15,11 +15,11 @@ public class VehicleCheckOutCriteriaReq {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.DEFAULT_STYLE);
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

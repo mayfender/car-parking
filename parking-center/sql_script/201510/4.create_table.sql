@@ -1,7 +1,7 @@
 CREATE 
 	TABLE vehicle_parking 
 	( 
-		id VARCHAR(12) NOT NULL, 
+		id int(11) NOT NULL AUTO_INCREMENT, 
 		in_date_time datetime, 
 		out_date_time datetime, 
 		price int, 
@@ -12,8 +12,7 @@ CREATE
 		gate_in_name VARCHAR(100),
 		gate_out_name VARCHAR(100),
 		reason_no_scan tinyint,
-		PRIMARY KEY (id),
-		CONSTRAINT ix1 UNIQUE (in_date_time) 
+		PRIMARY KEY (id)
 	) 
 	ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

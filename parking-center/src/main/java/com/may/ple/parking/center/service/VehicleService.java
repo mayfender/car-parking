@@ -142,15 +142,11 @@ public class VehicleService {
 	public void saveVehicleParking(VehicleSaveCriteriaReq req) throws Exception {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		Date date = new Date();
 		
 		try {
 			StringBuilder sql = new StringBuilder();
-			sql.append(" insert into vehicle_parking (id, in_date_time, license_no, checkin_device_id, gate_in_name) ");
-			sql.append(" select CONCAT('01" + String.format("%1$ty%1$tm%1$td", date) + "', LPAD(count(id) + 1, 4, '0')), ");
-			sql.append(" NOW(), ?, ?, ? ");
-			sql.append(" from vehicle_parking ");
-			sql.append(" where date(in_date_time) = '" + String.format("%1$tY-%1$tm-%1$td", date) + "' ");
+			sql.append(" insert into vehicle_parking (in_date_time, license_no, checkin_device_id, gate_in_name) ");
+			sql.append(" value(NOW(), ?, ?, ?)");
 			
 			conn = dataSource.getConnection();
 			pstmt = conn.prepareStatement(sql.toString());
@@ -288,7 +284,7 @@ public class VehicleService {
 			else 
 				pstmt.setNull(5, Types.INTEGER); // reason_no_scan				
 			
-			pstmt.setString(6, req.getId()); // id
+			pstmt.setLong(6, req.getId()); // id
 			
 			int executeUpdate = pstmt.executeUpdate();
 			if(executeUpdate == 0) 
@@ -326,7 +322,7 @@ public class VehicleService {
 					rst.getInt("price"), 
 					null, null, null, null
 				);
-				vehicleParking.setId(rst.getString("id"));
+				vehicleParking.setId(rst.getLong("id"));
 			}
 			
 			return vehicleParking;
@@ -339,7 +335,7 @@ public class VehicleService {
 		}
 	}
 	
-	private VehicleParking findVehicleById(Connection conn, String id) throws Exception {
+	private VehicleParking findVehicleById(Connection conn, Long id) throws Exception {
 		PreparedStatement pstmt = null;
 		ResultSet rst = null;
 		VehicleParking vehicleParking = null;
@@ -353,7 +349,7 @@ public class VehicleService {
 			sql.append(" where and id = ? ");
 			
 			pstmt = conn.prepareStatement(sql.toString());
-			pstmt.setString(1, id);
+			pstmt.setLong(1, id);
 			rst = pstmt.executeQuery();
 			
 			if(rst.next()) {
@@ -361,7 +357,7 @@ public class VehicleService {
 					rst.getTimestamp("in_date_time"), rst.getTimestamp("out_date_time"), 
 					rst.getInt("price"), null, null, null, null
 				);
-				vehicleParking.setId(rst.getString("id"));
+				vehicleParking.setId(rst.getLong("id"));
 			}
 			
 			return vehicleParking;
