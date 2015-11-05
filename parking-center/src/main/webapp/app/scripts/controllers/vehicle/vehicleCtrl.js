@@ -51,7 +51,6 @@ angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $sco
 	}
 	
 	$scope.changeItemPerPage = function() {
-		console.log('ok');
 		$scope.formData.currentPage = 1;
 		$scope.search();
 	}
@@ -111,8 +110,12 @@ angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $sco
 	       
 			if(!payload || !$scope.vehicles || $scope.formData.currentPage != 1) return;
 			
-			$scope.vehicles.unshift(payload);			
 			$scope.totalItems += 1;
+			if($scope.totalItems > $scope.itemsPerPage) {
+				$scope.vehicles.pop(payload);
+			}
+			
+			$scope.vehicles.unshift(payload);
 			$scope.$apply();
 	            
 		});
