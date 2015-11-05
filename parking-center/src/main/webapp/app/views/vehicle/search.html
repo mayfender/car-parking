@@ -17,7 +17,7 @@
 						<form name="vehicleSearchForm" role="vehicleSearchForm" ng-submit="search()">
 							<div class="form-group">
 								<label class="control-label">{{'search.license_no' | translate}} </label>
-								<input name="licenseNo" class="form-control" ng-model="formData.licenseNo">
+								<input name="licenseNo" class="form-control" ng-model="formData.licenseNo" ng-disabled="isRealTime">
 							</div>
 							<div class="form-group">
 								<label class="control-label">{{'search.start_date' | translate}}</label>
@@ -29,7 +29,7 @@
 											close-text="{{'datepicker.close' | translate}}"
 											ng-model="formData.dateTimeStart" is-open="formData.openedStart" close-text="Close" style="margin-left: 15px;" /> 
 											<span class="input-group-btn">
-											<button type="button" class="btn btn-default" ng-click="openStart($event)">
+											<button type="button" class="btn btn-default" ng-click="openStart($event)" ng-disabled="isRealTime">
 												<i class="glyphicon glyphicon-calendar"></i>
 											</button>
 										</span>
@@ -47,7 +47,7 @@
 											close-text="{{'datepicker.close' | translate}}"
 											ng-model="formData.dateTimeEnd" is-open="formData.openedEnd" close-text="Close"  style="margin-left: 15px;" /> 
 											<span class="input-group-btn">
-											<button type="button" class="btn btn-default" ng-click="openEnd($event)">
+											<button type="button" class="btn btn-default" ng-click="openEnd($event)" ng-disabled="isRealTime">
 												<i class="glyphicon glyphicon-calendar"></i>
 											</button>
 										</span>
@@ -57,16 +57,21 @@
 							<div class="form-group">
 				                 <label class="control-label">{{'search.status' | translate}} &nbsp;&nbsp;</label>
 				                 <label class="radio-inline">
-				                     <input type="radio" name="userStatus" value="0" ng-model="formData.status">{{'search.status.in' | translate}}
+				                     <input type="radio" name="userStatus" value="0" ng-model="formData.status" ng-disabled="isRealTime">{{'search.status.in' | translate}}
 				                 </label>
 				                 <label class="radio-inline">
-				                     <input type="radio" name="userStatus" value="1" ng-model="formData.status">{{'search.status.out' | translate}}
+				                     <input type="radio" name="userStatus" value="1" ng-model="formData.status" ng-disabled="isRealTime">{{'search.status.out' | translate}}
 				                 </label>
 				             </div>
-							
+				             <div class="form-inline" style="margin-bottom: 20px;">
+				                 <label class="control-label">{{'search.isRealTime' | translate}} &nbsp;&nbsp;</label>
+				                 <label class="control-label">
+				                     <input type="checkbox" ng-model="isRealTime" ng-change="isRealTimeChange()">
+				                 </label>
+				             </div>
 							<div style="text-align: center;">
-								<button type="button" class="btn btn-outline btn-primary btn-lg" ng-click="clear()">{{'search.clear_btn' | translate}}</button>
-								<button type="submit" class="btn btn-outline btn-primary btn-lg">{{'search.searhc_btn' | translate}}</button>
+								<button type="button" class="btn btn-outline btn-primary btn-lg" ng-click="clear()" ng-disabled="isRealTime">{{'search.clear_btn' | translate}}</button>
+								<button type="submit" class="btn btn-outline btn-primary btn-lg" ng-disabled="isRealTime">{{'search.searhc_btn' | translate}}</button>
 							</div>
 						</form>
 					</div>
@@ -75,7 +80,7 @@
 							<span class="input-group-addon" style="border: 0px; background: none;">
 								{{'pagination.page' | translate}}: {{formData.currentPage}} {{'pagination.of' | translate}} {{numPages}} ({{'pagination.total' | translate}} {{ totalItems }} {{'pagination.items' | translate}})
 							</span>
-							<pagination ng-change="pageChanged()" total-items="totalItems" 
+							<pagination ng-change="pageChanged()" total-items="totalItems"
 										first-text="{{'pagination.first' | translate}}"
 										previous-text="{{'pagination.previous' | translate}}"
 										next-text="{{'pagination.next' | translate}}"

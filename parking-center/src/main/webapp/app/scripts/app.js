@@ -19,7 +19,8 @@ angular
     'toaster',
     'chart.js',
     'pascalprecht.translate',
-    'ngSanitize'
+    'ngSanitize',
+    'ngStomp'
   ])
   
   .value('urlPrefix', '/parking-center') //-------- '/parking-center' or ''

@@ -1,12 +1,24 @@
-angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $scope, $stateParams, $http, $state, $filter, urlPrefix, loadVehicles, toaster) {
+angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $scope, $stateParams, $http, $state, $filter, $stomp, urlPrefix, loadVehicles, toaster) {
 	
 	var today = new Date();
+	var subscription;
 	$scope.vehicles = loadVehicles.vehicleParkings;
 	$scope.totalItems = loadVehicles.totalItems;
 	$scope.format = "dd-MM-yyyy";
 	$scope.itemsPerPage = 10;
 	$scope.maxSize = 5;
 	$scope.formData = {currentPage : 1};
+	
+	$scope.isRealTimeChange = function() {
+		if($scope.isRealTime) {
+			$scope.clear();
+			$scope.formData.currentPage = 1;
+			$scope.pageChanged();
+			subWebsocket();
+		}else{
+			unsubscribe();
+		}
+	}
 	
 	$scope.search = function() {
 		$http.post(urlPrefix + '/restAct/vehicle/searchVehicleParking', {
@@ -82,6 +94,57 @@ angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $sco
 		$scope.search();
 	}
 	
+	//------------------: Websocket :--------------------
+	
+	function initWebsocket() {
+		console.log('initWebsocket');
+		$stomp.connect(urlPrefix + '/websocketHandler')
+	    .then(function (frame) {
+	    	console.log('Websocket connect success');
+	    	console.log(frame);
+	    });
+	}
+	
+	function subWebsocket() {
+		console.log('subWebsocket');
+    	subscription = $stomp.subscribe('/topic/checkIn', function (payload, headers, res) {
+	       
+			if(!payload || !$scope.vehicles || $scope.formData.currentPage != 1) return;
+			
+			$scope.vehicles.unshift(payload);			
+			$scope.totalItems += 1;
+			$scope.$apply();
+	            
+		});
+	}
+	
+	function unsubscribe() {
+		if(subscription) {
+			console.log('unsubscribe');
+			subscription.unsubscribe();
+		}
+	}
+	
+	function disconnWebsocket() {
+		console.log('disconnWebsocket');
+        $stomp.disconnect().then(function(data){
+        	console.log('disconnection success');
+        	console.log(data);
+        }, function(response){
+        	console.log('disconnection error');
+        	console.log(response);        	
+        });
+	}
+	
+	//-----------------: Call method :--------------------
 	$scope.clear();
+	initWebsocket();
+	
+	
+	//------------------: Event call back :------------------------
+	$scope.$on('$destroy', function () { 
+		console.log('Destroy');
+		disconnWebsocket();
+	});
 	
 });

@@ -1,5 +1,7 @@
 package com.may.ple.parking.center.action;
 
+import java.util.Date;
+
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -7,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import com.may.ple.parking.center.criteria.VehicleCheckOutCriteriaReq;
@@ -24,10 +27,12 @@ import com.may.ple.parking.center.service.VehicleService;
 public class VehicleAction {
 	private static final Logger LOG = Logger.getLogger(VehicleAction.class.getName());
 	private VehicleService service;
+	private SimpMessagingTemplate template;
 	
 	@Autowired
-	public VehicleAction(VehicleService service) {
+	public VehicleAction(VehicleService service, SimpMessagingTemplate template) {
 		this.service = service;
+		this.template = template;
 	}
 	
 	@POST
@@ -90,6 +95,14 @@ public class VehicleAction {
 			LOG.debug(req);
 			
 			service.saveVehicleParking(req);
+			
+			try {
+				LOG.debug("Call Broker");			
+				VehicleParking vehicleParking = new VehicleParking(new Date(), null, null, 0, req.getLicenseNo(), null, null);
+				template.convertAndSend("/topic/checkIn", vehicleParking);				
+			} catch (Exception e) {
+				LOG.error(e.toString());
+			}
 			
 			LOG.debug(resp);
 		} catch (Exception e) {
