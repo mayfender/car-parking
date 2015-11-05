@@ -71,6 +71,13 @@ public class VehicleAction {
 			VehicleParking vehicleParking = service.checkOutVehicle(req);
 			resp.setVehicleParking(vehicleParking);
 			
+			try {
+				LOG.debug("Call Broker");
+				template.convertAndSend("/topic/checkOut", resp);				
+			} catch (Exception e) {
+				LOG.error(e.toString());
+			}
+			
 			LOG.debug(resp);
 		} catch (CustomerException e) {
 			resp.setStatusCode(e.errCode);			

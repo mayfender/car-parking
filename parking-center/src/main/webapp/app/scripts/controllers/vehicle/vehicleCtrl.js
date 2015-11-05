@@ -1,7 +1,7 @@
 angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $scope, $stateParams, $http, $state, $filter, $stomp, urlPrefix, loadVehicles, toaster) {
 	
 	var today = new Date();
-	var subscription;
+	var subCheckIn, subCheckOut;
 	$scope.vehicles = loadVehicles.vehicleParkings;
 	$scope.totalItems = loadVehicles.totalItems;
 	$scope.format = "dd-MM-yyyy";
@@ -106,7 +106,7 @@ angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $sco
 	
 	function subWebsocket() {
 		console.log('subWebsocket');
-    	subscription = $stomp.subscribe('/topic/checkIn', function (payload, headers, res) {
+    	subCheckIn = $stomp.subscribe('/topic/checkIn', function (payload, headers, res) {
 	       
 			if(!payload || !$scope.vehicles || $scope.formData.currentPage != 1) return;
 			
@@ -119,12 +119,28 @@ angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $sco
 			$scope.$apply();
 	            
 		});
+    	
+    	subCheckOut = $stomp.subscribe('/topic/checkOut', function (payload, headers, res) {
+ 	       
+    		if(!$scope.vehicles) return;
+    		
+    		
+    		for (var prop in $scope.vehicles) {
+    			  console.log("obj." + prop + " = " + $scope.vehicles[prop]);
+    		}
+			console.log(payload);
+	            
+		});
 	}
 	
 	function unsubscribe() {
-		if(subscription) {
-			console.log('unsubscribe');
-			subscription.unsubscribe();
+		if(subCheckIn) {
+			console.log('unsubscribe checkIn');
+			subCheckIn.unsubscribe();
+		}
+		if(subCheckOut) {
+			console.log('unsubscribe checkOut');
+			subCheckOut.unsubscribe();
 		}
 	}
 	
