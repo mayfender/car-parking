@@ -125,7 +125,7 @@ angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $sco
     		if(!$scope.vehicles || !payload) return;
     		
     		for (var prop in $scope.vehicles) {
-    			if(payload.inDateTime == $scope.vehicles[prop].inDateTime) {
+    			if(payload.id == $scope.vehicles[prop].id) {
     				console.log(payload);
     				$scope.vehicles[prop].outDateTime = payload.outDateTime;
     				$scope.vehicles[prop].price = payload.price;

@@ -101,11 +101,12 @@ public class VehicleAction {
 		try {
 			LOG.debug(req);
 			
-			service.saveVehicleParking(req);
+			Long id = service.saveVehicleParking(req);
 			
 			try {
 				LOG.debug("Call Broker");			
 				VehicleParking vehicleParking = new VehicleParking(new Date(), null, null, 0, req.getLicenseNo(), null, null);
+				vehicleParking.setId(id);
 				template.convertAndSend("/topic/checkIn", vehicleParking);				
 			} catch (Exception e) {
 				LOG.error(e.toString());

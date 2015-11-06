@@ -3,6 +3,7 @@ package com.may.ple.parking.center.service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
@@ -119,6 +120,7 @@ public class VehicleService {
 													price, 
 													rst.getInt("status"), 
 													rst.getString("license_no"), null, null);
+				vehicleParking.setId(rst.getLong("id"));
 				
 				if(vehicleParking.getInDateTime() != null && vehicleParking.getOutDateTime() != null) {					
 					vehicleParking.setDateTimeDiffMap(DateTimeUtil.dateTimeDiff(vehicleParking.getInDateTime(), vehicleParking.getOutDateTime()));					
@@ -139,9 +141,10 @@ public class VehicleService {
 		}
 	}
 	
-	public void saveVehicleParking(VehicleSaveCriteriaReq req) throws Exception {
+	public Long saveVehicleParking(VehicleSaveCriteriaReq req) throws Exception {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		Long id = null;
 		
 		try {
 			StringBuilder sql = new StringBuilder();
@@ -149,11 +152,23 @@ public class VehicleService {
 			sql.append(" value(NOW(), ?, ?, ?)");
 			
 			conn = dataSource.getConnection();
-			pstmt = conn.prepareStatement(sql.toString());
+			pstmt = conn.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, req.getLicenseNo());
 			pstmt.setString(2, req.getDeviceId());
 			pstmt.setString(3, req.getGateName());
 			pstmt.execute();
+			
+			LOG.debug("Before get ID");
+			try (ResultSet rst = pstmt.getGeneratedKeys()) {
+	            if (rst.next())
+	            	id = rst.getLong(1);
+	            
+	            LOG.debug("Get ID after save : " + id);
+	        } catch (Exception e) {
+	        	throw e;
+			}
+			
+			return id;
 		} catch (MySQLSyntaxErrorException e) {
 			/*try {
 				if(e.getSQLState() != null || e.getSQLState().equals("42S02")) {
