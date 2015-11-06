@@ -73,7 +73,7 @@ public class VehicleAction {
 			
 			try {
 				LOG.debug("Call Broker");
-				template.convertAndSend("/topic/checkOut", resp);				
+				template.convertAndSend("/topic/checkOut", vehicleParking);				
 			} catch (Exception e) {
 				LOG.error(e.toString());
 			}

@@ -122,14 +122,19 @@ angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $sco
     	
     	subCheckOut = $stomp.subscribe('/topic/checkOut', function (payload, headers, res) {
  	       
-    		if(!$scope.vehicles) return;
-    		
+    		if(!$scope.vehicles || !payload) return;
     		
     		for (var prop in $scope.vehicles) {
-    			  console.log("obj." + prop + " = " + $scope.vehicles[prop]);
-    		}
-			console.log(payload);
-	            
+    			if(payload.inDateTime == $scope.vehicles[prop].inDateTime) {
+    				console.log(payload);
+    				$scope.vehicles[prop].outDateTime = payload.outDateTime;
+    				$scope.vehicles[prop].price = payload.price;
+    				$scope.vehicles[prop].status = 1;
+    				$scope.vehicles[prop].dateTimeDiffMap = payload.dateTimeDiffMap;
+    				$scope.$apply();
+    				break;
+    			}
+    		}   
 		});
 	}
 	
