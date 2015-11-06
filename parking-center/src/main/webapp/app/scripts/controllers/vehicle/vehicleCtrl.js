@@ -12,10 +12,8 @@ angular.module('sbAdminApp').controller('VehicleCtrl', function($rootScope, $sco
 	$scope.isRealTimeChange = function() {
 		if($scope.isRealTime) {
 			$scope.clear();
-			if($scope.formData.currentPage != 1) {
-				$scope.formData.currentPage = 1;
-				$scope.pageChanged();				
-			}
+			$scope.formData.currentPage = 1;
+			$scope.pageChanged();				
 			subWebsocket();
 		}else{
 			unsubscribe();
