@@ -17,7 +17,7 @@ public class JerseyConfig extends ResourceConfig {
 	private static final Logger LOG = Logger.getLogger(JerseyConfig.class.getName());
 	
 	public JerseyConfig() {
-		LOG.debug(":----------: Register Rest Service :----------:");
+		LOG.info(":----------: Register Rest Service :----------:");
 		register(UserAction.class).
 		register(VehicleAction.class).
 		register(SettingAction.class).

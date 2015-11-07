@@ -20,7 +20,7 @@ public class ConfConfig {
 	@Bean
 	public PropertiesCustom dbProp() throws Exception {
 		try {
-			LOG.debug(":---------: Start load conf data :---------:");
+			LOG.info(":---------: Start load conf data :---------:");
 			
 			List<Conf> confs = confRepository.findAll();
 			PropertiesCustom properties = new PropertiesCustom();
@@ -28,7 +28,7 @@ public class ConfConfig {
 				properties.put(conf.getConfKey(), conf.getConfValue());
 			}
 			
-			LOG.debug(":---------: Finished load conf data :---------:");
+			LOG.info(":---------: Finished load conf data :---------:");
 			return properties;
 		} catch (Exception e) {
 			LOG.error(e.toString());

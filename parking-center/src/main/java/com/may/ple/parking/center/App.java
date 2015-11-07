@@ -17,19 +17,19 @@ public class App extends SpringBootServletInitializer{
 	private static final Logger LOG = Logger.getLogger(App.class.getName());
 	
 	public static void main(String[] args) {
-		LOG.debug(":---------: Start by main method :----------:");
+		LOG.info(":---------: Start by main method :----------:");
 		SpringApplication.run(App.class, args);
 	}
 	
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		LOG.debug(":----------: Start by SpringBootServletInitializer :----------:");
+		LOG.info(":----------: Start by SpringBootServletInitializer :----------:");
 		return builder.sources(App.class);
 	}
 
 	@PostConstruct
 	public void init() {
-		LOG.debug(":----------: Start Ricoh application :----------:");
+		LOG.info(":----------: Start Ricoh application :----------:");
 	}
 
 }
