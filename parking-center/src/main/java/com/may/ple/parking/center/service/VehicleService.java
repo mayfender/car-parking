@@ -165,6 +165,7 @@ public class VehicleService {
 	            
 	            LOG.debug("Get ID after save : " + id);
 	        } catch (Exception e) {
+	        	LOG.error(e.toString());
 	        	throw e;
 			}
 			
