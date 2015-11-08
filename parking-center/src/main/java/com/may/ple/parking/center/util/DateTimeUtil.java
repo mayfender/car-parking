@@ -1,5 +1,7 @@
 package com.may.ple.parking.center.util;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +23,12 @@ public class DateTimeUtil {
 		map.put("seconds", diffSeconds);
 		
 		return map;
+	}
+	
+	public static Timestamp getTimstampNoMillisecond() {
+		long time = Calendar.getInstance().getTimeInMillis();
+		long droppedMillis = 1000 * (time / 1000);
+		return new Timestamp(droppedMillis);
 	}
 
 }

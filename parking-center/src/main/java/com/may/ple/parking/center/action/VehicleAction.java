@@ -1,6 +1,6 @@
 package com.may.ple.parking.center.action;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -21,6 +21,7 @@ import com.may.ple.parking.center.criteria.VehicleSearchCriteriaResp;
 import com.may.ple.parking.center.entity.VehicleParking;
 import com.may.ple.parking.center.exception.CustomerException;
 import com.may.ple.parking.center.service.VehicleService;
+import com.may.ple.parking.center.util.DateTimeUtil;
 
 @Component
 @Path("vehicle")
@@ -101,12 +102,12 @@ public class VehicleAction {
 		try {
 			LOG.debug(req);
 			
-			Long id = service.saveVehicleParking(req);
+			Timestamp timestamp = DateTimeUtil.getTimstampNoMillisecond();
+			service.saveVehicleParking(req, timestamp);
 			
 			try {
 				LOG.debug("Call Broker");			
-				VehicleParking vehicleParking = new VehicleParking(new Date(), null, null, 0, req.getLicenseNo(), null, null);
-				vehicleParking.setId(id);
+				VehicleParking vehicleParking = new VehicleParking(timestamp, null, null, 0, req.getLicenseNo(), null, null);
 				template.convertAndSend("/topic/checkIn", vehicleParking);				
 			} catch (Exception e) {
 				LOG.error(e.toString());

@@ -3,11 +3,9 @@ package com.may.ple.parking.center.service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -141,35 +139,26 @@ public class VehicleService {
 		}
 	}
 	
-	public Long saveVehicleParking(VehicleSaveCriteriaReq req) throws Exception {
+	public void saveVehicleParking(VehicleSaveCriteriaReq req, Timestamp timestamp) throws Exception {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		Long id = null;
 		
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append(" insert into vehicle_parking (in_date_time, license_no, checkin_device_id, gate_in_name) ");
-			sql.append(" value(NOW(), ?, ?, ?)");
+			sql.append(" value(?, ?, ?, ?)");
 			
 			conn = dataSource.getConnection();
-			pstmt = conn.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
-			pstmt.setString(1, req.getLicenseNo());
-			pstmt.setString(2, req.getDeviceId());
-			pstmt.setString(3, req.getGateName());
-			pstmt.execute();
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setTimestamp(1, timestamp);
+			pstmt.setString(2, req.getLicenseNo());
+			pstmt.setString(3, req.getDeviceId());
+			pstmt.setString(4, req.getGateName());
+			int executeUpdate = pstmt.executeUpdate();
 			
-			LOG.debug("Before get ID");
-			try (ResultSet rst = pstmt.getGeneratedKeys()) {
-	            if (rst.next())
-	            	id = rst.getLong(1);
-	            
-	            LOG.debug("Get ID after save : " + id);
-	        } catch (Exception e) {
-	        	LOG.error(e.toString());
-	        	throw e;
-			}
+			if(executeUpdate == 0) 
+				throw new CustomerException(4001, "Cann't save");
 			
-			return id;
 		} catch (MySQLSyntaxErrorException e) {
 			/*try {
 				if(e.getSQLState() != null || e.getSQLState().equals("42S02")) {
@@ -214,7 +203,7 @@ public class VehicleService {
 			}
 			if(vehicleParking == null) throw new CustomerException(3000, "Not found vehicleParking");
 			
-			vehicleParking.setOutDateTime(new Timestamp(new Date().getTime()));
+			vehicleParking.setOutDateTime(DateTimeUtil.getTimstampNoMillisecond());
 			
 			Map<String, Long> dateTimeDiff = DateTimeUtil.dateTimeDiff(vehicleParking.getInDateTime(), vehicleParking.getOutDateTime());
 			vehicleParking.setDateTimeDiffMap(dateTimeDiff);
@@ -226,7 +215,7 @@ public class VehicleService {
 			
 			// 3. Update out-time
 			LOG.debug("Call updateVehicleOut");
-			updateVehicleOut(conn, req, price, vehicleParking.getOutDateTime());
+			updateVehicleOut(conn, req, price, (Timestamp)vehicleParking.getOutDateTime());
 			
 			return vehicleParking;
 		} catch (Exception e) {
@@ -275,7 +264,7 @@ public class VehicleService {
 		}
 	}
 	
-	private void updateVehicleOut(Connection conn, VehicleCheckOutCriteriaReq req, int price, Date date) throws Exception {
+	private void updateVehicleOut(Connection conn, VehicleCheckOutCriteriaReq req, int price, Timestamp timestamp) throws Exception {
 		PreparedStatement pstmt = null;
 		
 		try {
@@ -290,7 +279,7 @@ public class VehicleService {
 			sql.append(" where id = ? ");
 			
 			pstmt = conn.prepareStatement(sql.toString());
-			pstmt.setTimestamp(1, new Timestamp(date.getTime())); // out_date_time
+			pstmt.setTimestamp(1, timestamp); // out_date_time
 			pstmt.setInt(2, price); // price
 			pstmt.setString(3, req.getDeviceId()); //device_id
 			pstmt.setString(4, req.getGateName()); // gate_name
