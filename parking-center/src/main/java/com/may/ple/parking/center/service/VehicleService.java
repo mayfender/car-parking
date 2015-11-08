@@ -214,7 +214,7 @@ public class VehicleService {
 			}
 			if(vehicleParking == null) throw new CustomerException(3000, "Not found vehicleParking");
 			
-			vehicleParking.setOutDateTime(new Date());
+			vehicleParking.setOutDateTime(new Timestamp(new Date().getTime()));
 			
 			Map<String, Long> dateTimeDiff = DateTimeUtil.dateTimeDiff(vehicleParking.getInDateTime(), vehicleParking.getOutDateTime());
 			vehicleParking.setDateTimeDiffMap(dateTimeDiff);
