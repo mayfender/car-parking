@@ -13,7 +13,6 @@ angular.module('sbAdminApp').controller('AddUserCtrl', function($rootScope, $sco
 		
 		$scope.user = $stateParams.user;
 		$scope.isEdit = true;
-		$scope.persisBtn = 'Update';
 	} else {                // Initial for create module
 		$translate('user.header.panel.add_user').then(function (addUser) {
 			$scope.$parent.headerTitle = addUser;
